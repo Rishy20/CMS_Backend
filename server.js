@@ -3,7 +3,7 @@ const Koa = require('koa');
 //Import body-parser
 const bodyParser = require('koa-bodyparser');
 //Import the routes
-const researcherRoutes = require('./routes/researcher.routes');
+const editorRoutes = require('./routes/editor.routes');
 
 
 //Start app
@@ -12,7 +12,7 @@ const app = new Koa();
 app.use(bodyParser());
 
 //Registering the Researcher routes
-app.use(researcherRoutes.routes()).use(researcherRoutes.allowedMethods());
+app.use(editorRoutes.routes()).use(editorRoutes.allowedMethods());
 
 
 //Setup the port
