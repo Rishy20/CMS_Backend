@@ -1,8 +1,8 @@
 // Import Koa Router
 const Router = require('@koa/router');
 // Import API methods
-const {createAdmin, getAdmins, getAdmin, updateAdmin, deleteAdmin} =
-    require('../api/admin.api');
+const {createAdmin, getAdmins, getAdmin, updateAdmin, deleteAdmin,
+    authenticateAdmin} = require('../api/admin.api');
 
 const router = new Router({
     prefix: '/api/v1/admins'
@@ -40,6 +40,14 @@ router.put('/:id', async ctx => {
 router.delete('/:id', async ctx => {
     const id = ctx.params.id;
     ctx.body = await deleteAdmin(id);
+})
+
+// Authenticate admin route
+router.post('/auth', async ctx => {
+    const login = ctx.request.body;
+    const result = await authenticateAdmin(login);
+    ctx.status.code = result.code;
+    ctx.body = result.body;
 })
 
 // Export the routes
