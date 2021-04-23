@@ -6,11 +6,15 @@ const bodyParser = require('koa-bodyparser');
 const researcherRoutes = require('./routes/researcher.routes');
 const adminRoutes = require('./routes/admin.routes');
 
+//Import cors
+const cors = require('@koa/cors');
 
 //Start app
 const app = new Koa();
 //Use BodyParser
 app.use(bodyParser());
+//Use cors
+app.use(cors());
 
 //Registering the Researcher routes
 app.use(researcherRoutes.routes()).use(researcherRoutes.allowedMethods());
