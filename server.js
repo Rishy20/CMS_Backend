@@ -9,10 +9,14 @@ const adminRoutes = require('./routes/admin.routes');
 //Import cors
 const cors = require('@koa/cors');
 
+
+
 //Start app
 const app = new Koa();
 //Use BodyParser
 app.use(bodyParser());
+//Use multer
+// app.use(multer());
 //Use cors
 app.use(cors());
 
@@ -20,6 +24,10 @@ app.use(cors());
 app.use(researcherRoutes.routes()).use(researcherRoutes.allowedMethods());
 //Registering the Admin routes
 app.use(adminRoutes.routes()).use(adminRoutes.allowedMethods());
+
+
+
+
 
 
 //Setup the port

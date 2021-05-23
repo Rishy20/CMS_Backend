@@ -37,7 +37,6 @@ const removeById = async id =>{
 }
 //Update method
 const update = async (id, researcher) =>{
-
     const result = await researchers.replaceOne({_id:ObjectId(id)}, researcher);
     return result.modifiedCount;
 }

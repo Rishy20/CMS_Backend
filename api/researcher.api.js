@@ -3,7 +3,7 @@ const {getAll, getById, removeById, save, update} = require('../dal/researcher.d
 //Require bcrypt
 const bcrypt = require('bcrypt');
 //Map the save() method
-const createResearcher = async ({fname,lname,gender,email,password,contact,city}) => {
+const createResearcher = async ({fname,lname,gender,email,password,contact,country,jobTitle,company,img,file}) => {
 
     //Encrypt the password
     password = await bcrypt.hash(password,5);
@@ -15,9 +15,14 @@ const createResearcher = async ({fname,lname,gender,email,password,contact,city}
         email,
         password,
         contact,
-        city
+        country,
+        jobTitle,
+        company,
+        img,
+        file
     }
     //Call the Save method and pass the Researcher object
+    console.log(Researcher);
     return await save(Researcher);
 }
 //Map the getAll() method
@@ -33,7 +38,7 @@ const deleteResearcher = async id =>{
     return await removeById(id);
 }
 //Map the update method
-const updateResearcher = async (id,{fname,lname,gender,email,password,contact,city})=>{
+const updateResearcher = async (id,{fname,lname,gender,email,password,contact,country,jobTitle,company,img,file})=>{
     //Create a researcher object
     const Researcher = {
         fname,
@@ -41,7 +46,12 @@ const updateResearcher = async (id,{fname,lname,gender,email,password,contact,ci
         gender,
         email,
         contact,
-        city
+        password,
+        country,
+        jobTitle,
+        company,
+        img,
+        file
     }
     return await update(id,Researcher);
 }
