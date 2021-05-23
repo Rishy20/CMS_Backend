@@ -1,37 +1,32 @@
-//Import the methods 
-const {getAll, getById, removeById, save, update} = require('../dal/researcher.dao');
-
-const {saveUser,updateUser,deleteLogin} = require("../dal/login.dao");
+//Import the methods
+const {getAll, getById, removeById, save, update} = require('../dal/reviewer.dao');
 //Require bcrypt
 const bcrypt = require('bcrypt');
+
+const {saveUser,updateUser,deleteLogin} = require("../dal/login.dao");
+
 //Map the save() method
-const createResearcher = async ({fname,lname,contact,email,password,country,jobTitle,company,abstract,img,paper}) => {
+const createReviewer = async ({fname,lname,email,password,contact,country}) => {
 
     //Encrypt the password
     password = await bcrypt.hash(password,5);
-    //Create a researcher object
-    const researcher = {
+    //Create a reviewer object
+    const reviewer = {
         fname,
         lname,
         email,
         contact,
         country,
-        jobTitle,
-        company,
-        abstract,
-        img,
-        paper
     }
-
-    // Pass the Researcher object to save() method
-    let researcherId =  await save(researcher);
+    // Pass the reviewer object to save() method
+    let reviewerId =  await save(reviewer);
 
     //Create a user object to save them in the Login collection
     const user = {
-        _id:researcherId,
+        _id:reviewerId,
         email,
         password,
-        userType:"researcher"
+        userType:"reviewer"
     }
     let id = await saveUser(user);
     if(id === 1){
@@ -41,15 +36,15 @@ const createResearcher = async ({fname,lname,contact,email,password,country,jobT
     }
 }
 //Map the getAll() method
-const getResearchers = async ()=>{
+const getReviewers = async ()=>{
     return await getAll();
 }
 //Map the getById() method
-const getResearcher = async id =>{
+const getReviewer = async id =>{
     return await getById(id);
 }
 //Map the removeById() method
-const deleteResearcher = async id =>{
+const deleteReviewer = async id =>{
     let result = deleteLogin(id);
     if(result===1){
         return await removeById(id);
@@ -57,29 +52,24 @@ const deleteResearcher = async id =>{
     return {status:"Failed",message:"Delete Failed"}
 }
 //Map the update method
-const updateResearcher = async (id,{fname,lname,contact,email,password,country,jobTitle,company,abstract,img,paper})=>{
-    //Create a researcher object
-    const researcher = {
+const updateReviewer = async (id,{fname,lname,email,password,contact,country})=>{
+    //Create a Reviewer object
+    const reviewer = {
         fname,
         lname,
         email,
         contact,
         country,
-        jobTitle,
-        company,
-        abstract,
-        img,
-        paper
     }
     //Create a user object to update them in the Login collection
     const user = {
         _id:id,
         email,
         password,
-        userType:"researcher"
+        userType:"reviewer"
     }
-    //Update the researcher in the db
-    let result = await update(id,researcher);
+    //Update the reviewer in the db
+    let result = await update(id,reviewer);
     //Check if the update is successful
     if(result === 1){
         //Update the login credentials
@@ -93,9 +83,9 @@ const updateResearcher = async (id,{fname,lname,contact,email,password,country,j
 }
 //Export the methods to be used in routes
 module.exports = {
-    createResearcher,
-    getResearchers,
-    getResearcher,
-    deleteResearcher,
-    updateResearcher
+    createReviewer,
+    getReviewers,
+    getReviewer,
+    deleteReviewer,
+    updateReviewer
 }

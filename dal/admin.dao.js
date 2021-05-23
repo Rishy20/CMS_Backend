@@ -19,7 +19,7 @@ getClient().then(data => {
 // Add an admin
 const save = async admin => {
     const result = await admins.insertOne(admin);
-    return result.insertedCount;
+    return result.insertedId;
 }
 
 // Get all admins

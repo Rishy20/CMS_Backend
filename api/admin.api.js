@@ -1,6 +1,7 @@
 // Import methods from the Admin DAO
 const {save, getAll, getById, update, removeById, getByEmail} =
     require('../dal/admin.dao');
+const {saveUser,updateUser,deleteLogin} = require("../dal/login.dao");
 // Import bcrypt for password encryption
 const bcrypt = require('bcrypt');
 
@@ -14,12 +15,26 @@ const createAdmin = async ({fname, lname, email, password, phone}) => {
         fname,
         lname,
         email,
-        password,
         phone
     }
 
     // Pass the Admin object to save() method
-    return await save(admin);
+    let adminId =  await save(admin);
+
+    //Create a user object to save them in the Login collection
+    const user = {
+        _id:adminId,
+        email,
+        password,
+        userType:"admin"
+    }
+    let id = await saveUser(user);
+    if(id === 1){
+        return {status:"Success"}
+    }else{
+        return {status:"Fail",msg:"Failed to create Login in the database"}
+    }
+
 }
 
 // Map the getAll() method
@@ -39,16 +54,37 @@ const updateAdmin = async (id, {fname, lname, email, password, phone}) => {
         fname,
         lname,
         email,
-        password,
         phone
     }
 
-    return await update(id, admin);
+    //Create a user object to update them in the Login collection
+    const user = {
+        _id:id,
+        email,
+        password,
+        userType:"admin"
+    }
+    //Update the admin in the db
+    let result = await update(id,admin);
+    //Check if the update is successful
+    if(result === 1){
+        //Update the login credentials
+        result = await updateUser(id,user);
+        //Check if update is successful
+        if(result === 1){
+            return {status:"Success",msg:"User updated Successfully"}
+        }
+    }
+    return {status:"Fail",msg:"User update Failed"}
 }
 
 // Map the removeById() method
 const deleteAdmin = async id => {
-    return await removeById(id);
+    let result = deleteLogin(id);
+    if(result===1){
+        return await removeById(id);
+    }
+    return {status:"Failed",message:"Delete Failed"}
 }
 
 // Authenticate admin by checking email, and then the password
