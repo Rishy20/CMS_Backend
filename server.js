@@ -3,9 +3,15 @@ const Koa = require('koa');
 //Import body-parser
 const bodyParser = require('koa-bodyparser');
 //Import the routes
+
+const editorRoutes = require('./routes/editor.routes');
 const researcherRoutes = require('./routes/researcher.routes');
 const adminRoutes = require('./routes/admin.routes');
 const reviewerRoutes = require('./routes/reviewer.routes');
+
+
+
+
 //Import cors
 const cors = require('@koa/cors');
 
@@ -17,6 +23,8 @@ app.use(bodyParser());
 app.use(cors());
 
 //Registering the Researcher routes
+
+app.use(editorRoutes.routes()).use(editorRoutes.allowedMethods());
 app.use(researcherRoutes.routes()).use(researcherRoutes.allowedMethods());
 //Registering the Admin routes
 app.use(adminRoutes.routes()).use(adminRoutes.allowedMethods());
