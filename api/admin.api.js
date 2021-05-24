@@ -59,7 +59,6 @@ const updateAdmin = async (id, {fname, lname, email, password, phone}) => {
 
     //Create a user object to update them in the Login collection
     const user = {
-        _id:id,
         email,
         password,
         userType:"admin"
