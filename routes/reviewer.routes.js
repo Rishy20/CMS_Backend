@@ -4,7 +4,7 @@ const Router = require("@koa/router");
 const {createReviewer, getReviewer, getReviewers,updateReviewer,deleteReviewer} =  require('../api/reviewer.api');
 const router = new Router({
     //route prefix
-    prefix:'/api/v1/reviewer'
+    prefix:'/api/v1/reviewers'
 })
 //Get All route
 router.get('/',async ctx=>{
@@ -12,10 +12,10 @@ router.get('/',async ctx=>{
 })
 //Insert route
 router.post('/',async ctx=>{
-    let Reviewer = ctx.request.body;
-    Reviewer = await createReviewer(Reviewer);
+    let reviewer = ctx.request.body;
+    reviewer = await createReviewer(reviewer);
     ctx.response.status = 200;
-    ctx.body = Reviewer;
+    ctx.body = reviewer;
 })
 //Get By Id route
 router.get('/:id',async ctx=>{
