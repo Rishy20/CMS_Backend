@@ -73,7 +73,6 @@ const updateResearcher = async (id,{fname,lname,contact,email,password,country,j
     }
     //Create a user object to update them in the Login collection
     const user = {
-        _id:id,
         email,
         password,
         userType:"researcher"

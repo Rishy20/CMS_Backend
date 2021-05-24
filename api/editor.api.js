@@ -62,7 +62,6 @@ const updateEditor = async (id,{fname,lname,email,password,contact})=>{
 
     //Create a user object to update them in the Login collection
     const user = {
-        _id:id,
         email,
         password,
         userType:"editor"
