@@ -1,7 +1,7 @@
 //Import Koa router
 const Router = require("@koa/router");
 //Import api methods
-const {createResearcher, getResearcher, getResearchers,updateResearcher,deleteResearcher} =  require('../api/editor.api');
+const {createEditor, getEditor, getEditors, updateEditor, deleteEditor} =  require('../api/editor.api');
 
 const router = new Router({
     //route prefix
@@ -14,10 +14,10 @@ router.get('/',async ctx=>{
 })
 //Insert route
 router.post('/',async ctx=>{
-    let Editor = ctx.request.body;
-    Editor = await createEditor(Editor);
+    let editor = ctx.request.body;
+    editor = await createEditor(editor);
     ctx.response.status = 200;
-    ctx.body = Editor;
+    ctx.body = editor;
 })
 //Get By Id route
 router.get('/:id',async ctx=>{

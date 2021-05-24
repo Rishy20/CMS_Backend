@@ -1,5 +1,5 @@
 //Import the methods
-const {getAll, getById, removeById, save, update} = require('../dal/researcher.dao');
+const {getAll, getById, removeById, save, update} = require('../dal/editor.dao');
 //Require bcrypt
 const bcrypt = require('bcrypt');
 const {saveUser,updateUser,deleteLogin} = require("../dal/login.dao")
