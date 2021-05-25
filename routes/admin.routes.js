@@ -1,9 +1,30 @@
 // Import Koa Router
 const Router = require('@koa/router');
+// Import Multer
+const multer = require("@koa/multer");
+// Import file system API
+const fs = require("fs");
+
 // Import API methods
 const {createAdmin, getAdmins, getAdmin, updateAdmin, deleteAdmin,
     authenticateAdmin} = require('../api/admin.api');
 
+// Set storage path for avatars
+let storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        const path = 'public/uploads/images/admins';
+        fs.mkdirSync(path, {recursive: true});
+        return cb(null, path);
+    },
+    filename: (req, file, cb) => {
+        cb(null, JSON.parse(req.body.values).avatar);
+    }
+})
+
+// Create multer object
+const upload = multer({storage: storage});
+
+// Create router object
 const router = new Router({
     prefix: '/api/v1/admins'
 })
@@ -28,9 +49,9 @@ router.get('/:id', async ctx => {
 })
 
 // Update admin route
-router.put('/:id', async ctx => {
+router.put('/:id', upload.single('avatar'), async ctx => {
     const id = ctx.params.id;
-    let admin = ctx.request.body;
+    let admin = JSON.parse(ctx.request.body.values);
     admin = await updateAdmin(id, admin);
     ctx.status.code = 200;
     ctx.body = admin;

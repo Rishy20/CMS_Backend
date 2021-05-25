@@ -6,7 +6,7 @@ const {saveUser,updateUser,deleteLogin} = require("../dal/login.dao");
 const bcrypt = require('bcrypt');
 
 // Map the save() method
-const createAdmin = async ({fname, lname, email, password, phone}) => {
+const createAdmin = async ({fname, lname, email, password, contact}) => {
     // Encrypt the password
     password = await bcrypt.hash(password, 5);
 
@@ -15,7 +15,7 @@ const createAdmin = async ({fname, lname, email, password, phone}) => {
         fname,
         lname,
         email,
-        phone
+        contact
     }
 
     // Pass the Admin object to save() method
@@ -48,13 +48,14 @@ const getAdmin = async id => {
 }
 
 // Map the update() method
-const updateAdmin = async (id, {fname, lname, email, password, phone}) => {
+const updateAdmin = async (id, {fname, lname, email, password, contact, avatar}) => {
     // Create an admin object
     const admin = {
         fname,
         lname,
         email,
-        phone
+        contact,
+        avatar
     }
 
     //Create a user object to update them in the Login collection
@@ -64,7 +65,7 @@ const updateAdmin = async (id, {fname, lname, email, password, phone}) => {
         userType:"admin"
     }
     //Update the admin in the db
-    let result = await update(id,admin);
+    let result = await update(id, admin);
     //Check if the update is successful
     if(result === 1){
         //Update the login credentials
