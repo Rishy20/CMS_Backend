@@ -79,7 +79,7 @@ const updateAdmin = async (id, {fname, lname, email, password, phone}) => {
 
 // Map the removeById() method
 const deleteAdmin = async id => {
-    let result = deleteLogin(id);
+    let result = await deleteLogin(id);
     if(result===1){
         return await removeById(id);
     }

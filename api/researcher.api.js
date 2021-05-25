@@ -50,7 +50,7 @@ const getResearcher = async id =>{
 }
 //Map the removeById() method
 const deleteResearcher = async id =>{
-    let result = deleteLogin(id);
+    let result = await deleteLogin(id);
     if(result===1){
         return await removeById(id);
     }

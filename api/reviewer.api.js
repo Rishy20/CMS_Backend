@@ -29,6 +29,7 @@ const createReviewer = async ({fname,lname,email,password,contact,country}) => {
         userType:"reviewer"
     }
     let id = await saveUser(user);
+
     if(id === 1){
         return {status:"Success"}
     }else{
@@ -45,7 +46,7 @@ const getReviewer = async id =>{
 }
 //Map the removeById() method
 const deleteReviewer = async id =>{
-    let result = deleteLogin(id);
+    let result = await deleteLogin(id);
     if(result===1){
         return await removeById(id);
     }
