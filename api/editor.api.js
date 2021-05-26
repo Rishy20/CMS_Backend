@@ -51,13 +51,14 @@ const deleteEditor = async id =>{
     return {status:"Failed",message:"Delete Failed"}
 }
 //Map the update method
-const updateEditor = async (id,{fname,lname,email,password,contact})=>{
+const updateEditor = async (id, {fname, lname, email, password, contact, avatar})=>{
     //Create a researcher object
     const editor = {
         fname,
         lname,
         email,
         contact,
+        avatar
     }
 
     //Create a user object to update them in the Login collection

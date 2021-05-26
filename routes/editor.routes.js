@@ -1,7 +1,27 @@
 //Import Koa router
 const Router = require("@koa/router");
+// Import Multer
+const multer = require("@koa/multer");
+// Import file system API
+const fs = require("fs");
+
 //Import api methods
 const {createEditor, getEditor, getEditors, updateEditor, deleteEditor} =  require('../api/editor.api');
+
+// Set storage path for avatars
+let storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        const path = 'public/uploads/images/editors';
+        fs.mkdirSync(path, {recursive: true});
+        return cb(null, path);
+    },
+    filename: (req, file, cb) => {
+        cb(null, JSON.parse(req.body.values).avatar);
+    }
+})
+
+// Create multer object
+const upload = multer({storage: storage});
 
 const router = new Router({
     //route prefix
@@ -31,10 +51,10 @@ router.delete('/:id',async ctx=>{
 
 })
 //Update Route
-router.put('/:id',async ctx=>{
+router.put('/:id', upload.single('avatar'), async ctx=>{
     const id = ctx.params.id;
-    let editor = ctx.request.body;
-    editor = await updateEditor(id,editor);
+    let editor = JSON.parse(ctx.request.body.values);
+    editor = await updateEditor(id, editor);
     ctx.response.status = 200;
     ctx.body = editor;
 })
