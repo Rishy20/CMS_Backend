@@ -4,6 +4,8 @@ const Router = require("@koa/router");
 const multer = require("@koa/multer");
 // Import file system API
 const fs = require("fs");
+// Import mime-types for returning images as responses
+const mime = require('mime-types');
 
 //Import api methods
 const {createReviewer, getReviewer, getReviewers,updateReviewer,deleteReviewer} =  require('../api/reviewer.api');
@@ -57,5 +59,19 @@ router.put('/:id', upload.single('avatar'), async ctx=>{
     ctx.response.status = 200;
     ctx.body = reviewer;
 })
+
+// Get avatar image route
+router.get('/image/:filename', async ctx => {
+    // Get filename from the parameter
+    const filename = ctx.params.filename;
+    // Define image path
+    const path = `./public/uploads/images/reviewers/${filename}`;
+    // Create a mime-type and set it as the content type in the response header
+    const mimeType = mime.lookup(path);
+    ctx.response.set('content-type', mimeType);
+    // Create a readable stream of the image and return it as the response
+    ctx.body = fs.createReadStream(path);
+})
+
 //Export the routes
 module.exports = router;

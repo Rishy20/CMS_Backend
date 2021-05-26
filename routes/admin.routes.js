@@ -1,9 +1,11 @@
 // Import Koa Router
 const Router = require('@koa/router');
-// Import Multer
-const multer = require("@koa/multer");
-// Import file system API
-const fs = require("fs");
+// Import Multer for file uploading
+const multer = require('@koa/multer');
+// Import file system API for creating directories
+const fs = require('fs');
+// Import mime-types for returning images as responses
+const mime = require('mime-types');
 
 // Import API methods
 const {createAdmin, getAdmins, getAdmin, updateAdmin, deleteAdmin,
@@ -69,6 +71,19 @@ router.post('/auth', async ctx => {
     const result = await authenticateAdmin(login);
     ctx.status.code = result.code;
     ctx.body = result.body;
+})
+
+// Get avatar image route
+router.get('/image/:filename', async ctx => {
+    // Get filename from the parameter
+    const filename = ctx.params.filename;
+    // Define image path
+    const path = `./public/uploads/images/admins/${filename}`;
+    // Create a mime-type and set it as the content type in the response header
+    const mimeType = mime.lookup(path);
+    ctx.response.set('content-type', mimeType);
+    // Create a readable stream of the image and return it as the response
+    ctx.body = fs.createReadStream(path);
 })
 
 // Export the routes
