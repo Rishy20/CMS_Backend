@@ -53,7 +53,7 @@ const deleteReviewer = async id =>{
     return {status:"Failed",message:"Delete Failed"}
 }
 //Map the update method
-const updateReviewer = async (id,{fname,lname,email,password,contact,country})=>{
+const updateReviewer = async (id, {fname, lname, email, password, contact, country, avatar})=>{
     //Create a Reviewer object
     const reviewer = {
         fname,
@@ -61,6 +61,7 @@ const updateReviewer = async (id,{fname,lname,email,password,contact,country})=>
         email,
         contact,
         country,
+        avatar
     }
     //Create a user object to update them in the Login collection
     const user = {
