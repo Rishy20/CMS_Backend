@@ -5,7 +5,7 @@ const {saveUser,updateUser,deleteLogin} = require("../dal/login.dao");
 //Require bcrypt
 const bcrypt = require('bcrypt');
 //Map the save() method
-const createResearcher = async ({fname,lname,contact,email,password,country,jobTitle,company,abstract,img,paper}) => {
+const createResearcher = async ({fname,lname,contact,email,password,country,jobTitle,company,bio,img,paper}) => {
 
     //Encrypt the password
     password = await bcrypt.hash(password,5);
@@ -18,7 +18,7 @@ const createResearcher = async ({fname,lname,contact,email,password,country,jobT
         country,
         jobTitle,
         company,
-        abstract,
+        bio,
         img,
         paper
     }
@@ -57,7 +57,7 @@ const deleteResearcher = async id =>{
     return {status:"Failed",message:"Delete Failed"}
 }
 //Map the update method
-const updateResearcher = async (id,{fname,lname,contact,email,password,country,jobTitle,company,abstract,img,paper})=>{
+const updateResearcher = async (id,{fname,lname,contact,email,password,country,jobTitle,company,bio,img,paper})=>{
     //Create a researcher object
     const researcher = {
         fname,
@@ -67,7 +67,7 @@ const updateResearcher = async (id,{fname,lname,contact,email,password,country,j
         country,
         jobTitle,
         company,
-        abstract,
+        bio,
         img,
         paper
     }
@@ -98,3 +98,4 @@ module.exports = {
     deleteResearcher,
     updateResearcher
 }
+

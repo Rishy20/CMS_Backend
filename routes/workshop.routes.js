@@ -25,7 +25,7 @@ const upload = multer({storage:storage});
 
 const router = new Router({
     //route prefix
-    prefix:'/api/v1/Workshops'
+    prefix:'/api/v1/workshops'
 })
 //Get All route
 router.get('/',async ctx=>{

@@ -40,7 +40,6 @@ router.post('/',upload.fields([{name:'img',maxCount:1},{name:'paper',maxCount:1}
         let fileName = ctx.response.request.files.paper[0].filename;
         Researcher.paper = fileName;
         Researcher.img = img;
-        console.log(img);
         Researcher = await createResearcher(Researcher);
         ctx.response.status = 200;
         ctx.body = Researcher;
