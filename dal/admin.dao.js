@@ -45,18 +45,12 @@ const removeById = async id => {
     return result.deletedCount;
 }
 
-// Get an admin by email
-const getByEmail = async (email) => {
-    return await admins.findOne({email: email});
-}
-
 // Export the methods to be used in the API
 module.exports = {
     save,
     getAll,
     getById,
     update,
-    removeById,
-    getByEmail
+    removeById
 }
 

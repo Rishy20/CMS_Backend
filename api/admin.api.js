@@ -1,5 +1,5 @@
 // Import methods from the Admin DAO
-const {save, getAll, getById, update, removeById, getByEmail} =
+const {save, getAll, getById, update, removeById} =
     require('../dal/admin.dao');
 const {saveUser,updateUser,deleteLogin} = require("../dal/login.dao");
 // Import bcrypt for password encryption
@@ -87,33 +87,11 @@ const deleteAdmin = async id => {
     return {status:"Failed",message:"Delete Failed"}
 }
 
-// Authenticate admin by checking email, and then the password
-const authenticateAdmin = async ({email, password}) => {
-    // Create default response
-    let response = {code: 401, body: {msg: "User does not exist"}};
-    // Get user by email, if exists
-    const admin = await getByEmail(email);
-
-    if (admin) {
-        // Compare the entered password with the stored password of the user
-        if (await bcrypt.compare(password, admin.password)) {
-            // If password matches, send success code and user details as response
-            response.code = 200;
-            response.body = admin;
-        } else {
-            response.body = {msg: "Password is incorrect"};
-        }
-    }
-
-    return response;
-}
-
 // Export the methods to be used in routing
 module.exports = {
     createAdmin,
     getAdmins,
     getAdmin,
     updateAdmin,
-    deleteAdmin,
-    authenticateAdmin
+    deleteAdmin
 }

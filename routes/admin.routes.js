@@ -8,8 +8,7 @@ const fs = require('fs');
 const mime = require('mime-types');
 
 // Import API methods
-const {createAdmin, getAdmins, getAdmin, updateAdmin, deleteAdmin,
-    authenticateAdmin} = require('../api/admin.api');
+const {createAdmin, getAdmins, getAdmin, updateAdmin, deleteAdmin} = require('../api/admin.api');
 
 // Set storage path for avatars
 let storage = multer.diskStorage({
@@ -63,14 +62,6 @@ router.put('/:id', upload.single('avatar'), async ctx => {
 router.delete('/:id', async ctx => {
     const id = ctx.params.id;
     ctx.body = await deleteAdmin(id);
-})
-
-// Authenticate admin route
-router.post('/auth', async ctx => {
-    const login = ctx.request.body;
-    const result = await authenticateAdmin(login);
-    ctx.status.code = result.code;
-    ctx.body = result.body;
 })
 
 // Get avatar image route

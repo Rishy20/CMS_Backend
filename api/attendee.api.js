@@ -1,5 +1,5 @@
 //Import the methods 
-const {getAll, getById, removeById, save, update} = require('../dal/Attendee.dao');
+const {getAll, getById, removeById, save, update} = require('../dal/attendee.dao');
 
 
 //Map the save() method

@@ -1,7 +1,7 @@
 //Import Koa router
 const Router = require("@koa/router");
 //Import api methods
-const {createWorkshop, getWorkshop, getWorkshops,updateWorkshop,deleteWorkshop} =  require('../api/Workshop.api');
+const {createWorkshop, getWorkshop, getWorkshops,updateWorkshop,deleteWorkshop} =  require('../api/workshop.api');
 //Import multer
 const multer = require('@koa/multer');
 

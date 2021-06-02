@@ -47,7 +47,7 @@ const authenticateAdminUser = async ({email,password}) => {
             const id = result._id;
             const userType = result.userType;
 
-            if(userType in ("admin","reviewer","editor")){
+            if(["admin","reviewer","editor"].includes(userType)){
                 //Create a JSON Web token
                 const token = jwt.sign({id,userType},secret,{
                     expiresIn: 86400
