@@ -3,7 +3,7 @@ const {getAll, getById, removeById, save, update} = require('../dal/reviewer.dao
 //Require bcrypt
 const bcrypt = require('bcrypt');
 
-const {saveUser,updateUser,deleteLogin} = require("../dal/login.dao");
+const {saveUser,updateUser,deleteLogin,getUserById} = require("../dal/login.dao");
 
 //Map the save() method
 const createReviewer = async ({fname,lname,email,password,contact,country}) => {
@@ -63,6 +63,16 @@ const updateReviewer = async (id, {fname, lname, email, password, contact, count
         country,
         avatar
     }
+
+    // Check whether a password is given or not
+    if (password) {
+        // Encrypt the new password
+        password = await bcrypt.hash(password, 5);
+    } else {
+        // Use existing password if the password given is null
+        await getUserById(id).then(data => password = data.password);
+    }
+
     //Create a user object to update them in the Login collection
     const user = {
         email,

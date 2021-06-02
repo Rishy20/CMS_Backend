@@ -1,7 +1,7 @@
 // Import methods from the Admin DAO
 const {save, getAll, getById, update, removeById} =
     require('../dal/admin.dao');
-const {saveUser,updateUser,deleteLogin} = require("../dal/login.dao");
+const {saveUser,updateUser,deleteLogin,getUserById} = require("../dal/login.dao");
 // Import bcrypt for password encryption
 const bcrypt = require('bcrypt');
 
@@ -56,6 +56,15 @@ const updateAdmin = async (id, {fname, lname, email, password, contact, avatar})
         email,
         contact,
         avatar
+    }
+
+    // Check whether a password is given or not
+    if (password) {
+        // Encrypt the new password
+        password = await bcrypt.hash(password, 5);
+    } else {
+        // Use existing password if the password given is null
+        await getUserById(id).then(data => password = data.password);
     }
 
     //Create a user object to update them in the Login collection

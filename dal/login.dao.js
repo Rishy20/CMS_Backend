@@ -37,10 +37,15 @@ const deleteLogin = async id => {
     const result = await users.deleteOne({_id: ObjectId(id)});
     return result.deletedCount;
 }
+// Get user by ID
+const getUserById = async (id) => {
+    return await users.findOne({_id: ObjectId(id)});
+}
 //Export the methods
 module.exports = {
     saveUser,
     getUser,
     updateUser,
-    deleteLogin
+    deleteLogin,
+    getUserById
 };
