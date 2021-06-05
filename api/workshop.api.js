@@ -20,7 +20,8 @@ const createWorkshop = async ({workshopName, presentersName ,email,contact,passw
         jobTitle,
         company,
         img,
-        proposal
+        proposal,
+        createdAt: new Date()
     }
     // Pass the workshop object to save() method
     let workshopId =  await save(workshop);
@@ -56,7 +57,7 @@ const deleteWorkshop = async id =>{
     return {status:"Failed",message:"Delete Failed"}
 }
 //Map the update method
-const updateWorkshop = async (id,{workshopName, presentersName ,email,contact,password,country,jobTitle,company,img,proposal})=>{
+const updateWorkshop = async (id,{workshopName, presentersName ,email,contact,password,country,jobTitle,company,img,proposal,createdAt})=>{
     //Create a Workshop object
     const workshop = {
         workshopName,
@@ -67,7 +68,8 @@ const updateWorkshop = async (id,{workshopName, presentersName ,email,contact,pa
         jobTitle,
         company,
         img,
-        proposal
+        proposal,
+        createdAt
     }
     //Create a user object to update them in the Login collection
     const user = {

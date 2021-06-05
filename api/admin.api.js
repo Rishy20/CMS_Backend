@@ -15,7 +15,8 @@ const createAdmin = async ({fname, lname, email, password, contact}) => {
         fname,
         lname,
         email,
-        contact
+        contact,
+        createdAt: new Date()
     }
 
     // Pass the Admin object to save() method
@@ -48,14 +49,15 @@ const getAdmin = async id => {
 }
 
 // Map the update() method
-const updateAdmin = async (id, {fname, lname, email, password, contact, avatar}) => {
+const updateAdmin = async (id, {fname, lname, email, password, contact, avatar, createdAt}) => {
     // Create an admin object
     const admin = {
         fname,
         lname,
         email,
         contact,
-        avatar
+        avatar,
+        createdAt
     }
 
     // Check whether a password is given or not

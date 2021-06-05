@@ -20,7 +20,8 @@ const createResearcher = async ({fname,lname,contact,email,password,country,jobT
         company,
         bio,
         img,
-        paper
+        paper,
+        createdAt: new Date()
     }
 
     // Pass the Researcher object to save() method
@@ -57,7 +58,7 @@ const deleteResearcher = async id =>{
     return {status:"Failed",message:"Delete Failed"}
 }
 //Map the update method
-const updateResearcher = async (id,{fname,lname,contact,email,password,country,jobTitle,company,bio,img,paper})=>{
+const updateResearcher = async (id,{fname,lname,contact,email,password,country,jobTitle,company,bio,img,paper,createdAt})=>{
     //Create a researcher object
     const researcher = {
         fname,
@@ -69,7 +70,8 @@ const updateResearcher = async (id,{fname,lname,contact,email,password,country,j
         company,
         bio,
         img,
-        paper
+        paper,
+        createdAt
     }
     //Create a user object to update them in the Login collection
     const user = {

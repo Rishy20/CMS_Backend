@@ -15,7 +15,7 @@ const createEditor = async ({fname,lname,email,password,contact}) => {
         lname,
         email,
         contact,
-
+        createdAt: new Date()
     }
     // Pass the editor object to save() method
     let editorId =  await save(editor);
@@ -51,14 +51,15 @@ const deleteEditor = async id =>{
     return {status:"Failed",message:"Delete Failed"}
 }
 //Map the update method
-const updateEditor = async (id, {fname, lname, email, password, contact, avatar})=>{
+const updateEditor = async (id, {fname, lname, email, password, contact, avatar, createdAt})=>{
     //Create a researcher object
     const editor = {
         fname,
         lname,
         email,
         contact,
-        avatar
+        avatar,
+        createdAt
     }
 
     // Check whether a password is given or not

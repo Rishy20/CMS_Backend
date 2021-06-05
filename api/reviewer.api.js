@@ -17,6 +17,7 @@ const createReviewer = async ({fname,lname,email,password,contact,country}) => {
         email,
         contact,
         country,
+        createdAt: new Date()
     }
     // Pass the reviewer object to save() method
     let reviewerId =  await save(reviewer);
@@ -53,7 +54,7 @@ const deleteReviewer = async id =>{
     return {status:"Failed",message:"Delete Failed"}
 }
 //Map the update method
-const updateReviewer = async (id, {fname, lname, email, password, contact, country, avatar})=>{
+const updateReviewer = async (id, {fname, lname, email, password, contact, country, avatar, createdAt})=>{
     //Create a Reviewer object
     const reviewer = {
         fname,
@@ -61,7 +62,8 @@ const updateReviewer = async (id, {fname, lname, email, password, contact, count
         email,
         contact,
         country,
-        avatar
+        avatar,
+        createdAt
     }
 
     // Check whether a password is given or not

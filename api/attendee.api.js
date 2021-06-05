@@ -13,7 +13,8 @@ const createAttendee = async ({fname,lname,contact,email,city,country,ticket}) =
         contact,
         city,
         country,
-        ticket
+        ticket,
+        createdAt: new Date()
     }
 
     // Pass the Attendee object to save() method
@@ -42,7 +43,7 @@ const deleteAttendee = async id =>{
     return {status:"Failed",message:"Delete Failed"}
 }
 //Map the update method
-const updateAttendee = async (id,{fname,lname,contact,email,city,country,ticket})=>{
+const updateAttendee = async (id,{fname,lname,contact,email,city,country,ticket,createdAt})=>{
 
     //Create a Attendee object
     const attendee = {
@@ -52,7 +53,8 @@ const updateAttendee = async (id,{fname,lname,contact,email,city,country,ticket}
         contact,
         city,
         country,
-        ticket
+        ticket,
+        createdAt
     }
 
 
