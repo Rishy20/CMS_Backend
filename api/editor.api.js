@@ -44,8 +44,8 @@ const getEditor = async id =>{
 }
 //Map the removeById() method
 const deleteEditor = async id =>{
-    let result = deleteLogin(id);
-    if(result===1){
+    let result = await deleteLogin(id);
+    if (result === 1) {
         return await removeById(id);
     }
     return {status:"Failed",message:"Delete Failed"}
