@@ -36,11 +36,7 @@ const getAttendee = async id =>{
 }
 //Map the removeById() method
 const deleteAttendee = async id =>{
-
-    if(result===1){
-        return await removeById(id);
-    }
-    return {status:"Failed",message:"Delete Failed"}
+    return await removeById(id);
 }
 //Map the update method
 const updateAttendee = async (id,{fname,lname,contact,email,city,country,ticket,createdAt})=>{

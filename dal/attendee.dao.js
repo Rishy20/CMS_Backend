@@ -40,7 +40,7 @@ const getById = async (id) =>{
 //Delete method
 const removeById = async id =>{
     const result = await attendees.deleteOne({_id:ObjectId(id)});
-    return result.insertedId;
+    return result.deletedCount;
 }
 //Update method
 const update = async (id, attendee) =>{
