@@ -15,6 +15,7 @@ const createEditor = async ({fname,lname,email,password,contact}) => {
         lname,
         email,
         contact,
+        status: "pending",
         createdAt: new Date()
     }
     // Pass the editor object to save() method
@@ -25,7 +26,8 @@ const createEditor = async ({fname,lname,email,password,contact}) => {
         _id:editorId,
         email,
         password,
-        userType:"editor"
+        userType:"editor",
+        status: "pending"
     }
     let id = await saveUser(user);
     if(id === 1){
@@ -51,7 +53,7 @@ const deleteEditor = async id =>{
     return {status:"Failed",message:"Delete Failed"}
 }
 //Map the update method
-const updateEditor = async (id, {fname, lname, email, password, contact, avatar, createdAt})=>{
+const updateEditor = async (id, {fname, lname, email, password, contact, avatar, status, createdAt})=>{
     //Create a researcher object
     const editor = {
         fname,
@@ -59,6 +61,7 @@ const updateEditor = async (id, {fname, lname, email, password, contact, avatar,
         email,
         contact,
         avatar,
+        status,
         createdAt
     }
 
@@ -75,7 +78,8 @@ const updateEditor = async (id, {fname, lname, email, password, contact, avatar,
     const user = {
         email,
         password,
-        userType:"editor"
+        userType:"editor",
+        status
     }
     //Update the admin in the db
     let result = await update(id,editor);

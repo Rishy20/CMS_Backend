@@ -17,6 +17,7 @@ const createReviewer = async ({fname,lname,email,password,contact,country}) => {
         email,
         contact,
         country,
+        status: "pending",
         createdAt: new Date()
     }
     // Pass the reviewer object to save() method
@@ -27,7 +28,8 @@ const createReviewer = async ({fname,lname,email,password,contact,country}) => {
         _id:reviewerId,
         email,
         password,
-        userType:"reviewer"
+        userType:"reviewer",
+        status: "pending"
     }
     let id = await saveUser(user);
 
@@ -54,7 +56,7 @@ const deleteReviewer = async id =>{
     return {status:"Failed",message:"Delete Failed"}
 }
 //Map the update method
-const updateReviewer = async (id, {fname, lname, email, password, contact, country, avatar, createdAt})=>{
+const updateReviewer = async (id, {fname, lname, email, password, contact, country, avatar, status, createdAt})=>{
     //Create a Reviewer object
     const reviewer = {
         fname,
@@ -63,6 +65,7 @@ const updateReviewer = async (id, {fname, lname, email, password, contact, count
         contact,
         country,
         avatar,
+        status,
         createdAt
     }
 
@@ -79,7 +82,8 @@ const updateReviewer = async (id, {fname, lname, email, password, contact, count
     const user = {
         email,
         password,
-        userType:"reviewer"
+        userType:"reviewer",
+        status
     }
     //Update the reviewer in the db
     let result = await update(id,reviewer);
