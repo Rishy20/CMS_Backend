@@ -12,6 +12,7 @@ const workshopRoutes = require('./routes/workshop.routes');
 const loginRoutes = require('./routes/login.routes');
 const attendeeRoutes = require('./routes/attendee.routes')
 const infoRoutes = require('./routes/info.routes')
+const editRoutes = require('./routes/edit.routes');
 
 //Import cors
 const cors = require('@koa/cors');
@@ -39,6 +40,7 @@ app.use(workshopRoutes.routes()).use(workshopRoutes.allowedMethods());
 app.use(loginRoutes.routes()).use(loginRoutes.allowedMethods());
 app.use(attendeeRoutes.routes()).use(attendeeRoutes.allowedMethods());
 app.use(infoRoutes.routes()).use(infoRoutes.allowedMethods());
+app.use(editRoutes.routes()).use(editRoutes.allowedMethods());
 //Setup the port
 let port = process.env.PORT;
 if (port == null || port == "") {
