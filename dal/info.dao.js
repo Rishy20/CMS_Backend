@@ -17,8 +17,8 @@ getClient().then(data=>{
 });
 
 //Save method
-const save = async (info) => {
-    const result = await info.insertOne(info);
+const save = async (newInfo) => {
+    const result = await info.insertOne(newInfo);
     return result.insertedId;
 }
 //GetAll method
@@ -36,8 +36,8 @@ const removeById = async id =>{
     return result.insertedId;
 }
 //Update method
-const update = async (id, info) =>{
-    const result = await info.replaceOne({_id:ObjectId(id)}, info);
+const update = async (id, newInfo) =>{
+    const result = await info.replaceOne({_id:ObjectId(id)}, newInfo);
     return result.modifiedCount;
 }
 //Export the methods

@@ -1,5 +1,6 @@
 //Import the methods 
 const {getAll, getById, removeById, save, update} = require('../dal/edit.dao');
+const {getAll: getInfo, update: updateInfo} = require('../dal/info.dao');
 
 //Map the save() method
 const createEdit = async ({editItem, newValue, description}) => {
@@ -39,7 +40,7 @@ const deleteEdit = async id =>{
 
 //Map the update method
 const updateEdit = async (id, {editItem, newValue, description, status}) => {
-    //Create an edit object
+    // Create an edit object
     const edit = {
         editItem,
         newValue,
@@ -47,8 +48,20 @@ const updateEdit = async (id, {editItem, newValue, description, status}) => {
         status,
     }
 
-    let result = await update(id,edit);
-    //Check if update is successful
+    let result;
+
+    // Check if edit is approved and do modifications to Info
+    if (status === "approved") {
+        let info = await getInfo();
+        info = info[0];
+        info[editItem] = newValue;
+        let updateInfoResult = await updateInfo(info._id, info);
+        result = updateInfoResult === 1 &&  await update(id, edit);
+    } else {
+        result = await update(id,edit);
+    }
+
+    // Check if update is successful
     if(result === 1){
         return {status:"Success",msg:"Edit updated Successfully"}
     }
