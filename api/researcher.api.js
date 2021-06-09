@@ -1,11 +1,11 @@
 //Import the methods 
-const {getAll, getById, removeById, save, update} = require('../dal/researcher.dao');
+const {getAll, getById, removeById, save, update, updatePaymentId,getApproved,getRejected,getPending} = require('../dal/researcher.dao');
 
 const {saveUser,updateUser,deleteLogin} = require("../dal/login.dao");
 //Require bcrypt
 const bcrypt = require('bcrypt');
 //Map the save() method
-const createResearcher = async ({fname,lname,contact,email,password,country,jobTitle,company,bio,img,paper}) => {
+const createResearcher = async ({fname,lname,contact,email,password,country,jobTitle,company,bio,avatar,paper}) => {
 
     //Encrypt the password
     password = await bcrypt.hash(password,5);
@@ -19,7 +19,7 @@ const createResearcher = async ({fname,lname,contact,email,password,country,jobT
         jobTitle,
         company,
         bio,
-        img,
+        avatar,
         paper,
         createdAt: new Date()
     }
@@ -45,6 +45,18 @@ const createResearcher = async ({fname,lname,contact,email,password,country,jobT
 const getResearchers = async ()=>{
     return await getAll();
 }
+//Map the getApproved() method
+const getApprovedResearchers = async ()=>{
+    return await getApproved();
+}
+//Map the getPending() method
+const getPendingResearchers = async ()=>{
+    return await getPending();
+}
+//Map the getRejected() method
+const getRejectedResearchers = async ()=>{
+    return await getRejected();
+}
 //Map the getById() method
 const getResearcher = async id =>{
     return await getById(id);
@@ -58,7 +70,7 @@ const deleteResearcher = async id =>{
     return {status:"Failed",message:"Delete Failed"}
 }
 //Map the update method
-const updateResearcher = async (id,{fname,lname,contact,email,password,country,jobTitle,company,bio,img,paper,createdAt})=>{
+const updateResearcher = async (id,{fname,lname,contact,email,password,country,jobTitle,company,bio,avatar,paper,createdAt})=>{
     //Create a researcher object
     const researcher = {
         fname,
@@ -69,7 +81,7 @@ const updateResearcher = async (id,{fname,lname,contact,email,password,country,j
         jobTitle,
         company,
         bio,
-        img,
+        avatar,
         paper,
         createdAt
     }
@@ -92,12 +104,20 @@ const updateResearcher = async (id,{fname,lname,contact,email,password,country,j
     }
     return {status:"Fail",msg:"User update Failed"}
 }
+
+const updateResearcherPayment = async (id,paymentId) =>{
+    return await updatePaymentId(id,paymentId)
+}
 //Export the methods to be used in routes
 module.exports = {
     createResearcher,
     getResearchers,
     getResearcher,
     deleteResearcher,
-    updateResearcher
+    updateResearcher,
+    updateResearcherPayment,
+    getApprovedResearchers,
+    getPendingResearchers,
+    getRejectedResearchers
 }
 

@@ -29,6 +29,22 @@ const getAll = async () =>{
 //GetById method
 const getById = async (id) =>{
     return await researchers.findOne({_id:ObjectId(id)});
+
+}
+//Get approved researchers
+const getApproved= async () =>{
+    const cursor = await researchers.find({status:"approved",paymentId: {$ne:null}});
+    return cursor.toArray();
+}
+//Get pending researchers
+const getPending= async () =>{
+    const cursor = await researchers.find({status:"pending"});
+    return cursor.toArray();
+}
+//Get rejected researchers
+const getRejected= async () =>{
+    const cursor = await researchers.find({status:"rejected"});
+    return cursor.toArray();
 }
 //Delete method
 const removeById = async id =>{
@@ -40,11 +56,20 @@ const update = async (id, researcher) =>{
     const result = await researchers.replaceOne({_id:ObjectId(id)}, researcher);
     return result.modifiedCount;
 }
+//Update method
+const updatePaymentId = async (id, paymentId) =>{
+    const result = await researchers.updateOne({_id:ObjectId(id)}, {$set:{paymentId:paymentId}});
+    return result.modifiedCount;
+}
 //Export the methods
 module.exports = {
     getAll,
     getById,
     removeById,
     save,
-    update
+    update,
+    updatePaymentId,
+    getPending,
+    getApproved,
+    getRejected
 };

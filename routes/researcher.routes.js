@@ -1,9 +1,11 @@
 //Import Koa router
 const Router = require("@koa/router");
 //Import api methods
-const {createResearcher, getResearcher, getResearchers,updateResearcher,deleteResearcher} =  require('../api/researcher.api');
+const {createResearcher, getResearcher, getResearchers,updateResearcher,deleteResearcher,getApprovedResearchers,getRejectedResearchers,getPendingResearchers} =  require('../api/researcher.api');
 //Import multer
 const multer = require('@koa/multer');
+const mime = require("mime-types");
+const fs = require("fs");
 
 let storage = multer.diskStorage({
 
@@ -31,6 +33,18 @@ const router = new Router({
 router.get('/',async ctx=>{
     ctx.body= await getResearchers() ;
 })
+//Get Approved Researchers route
+router.get('/approved',async ctx=>{
+    ctx.body= await getApprovedResearchers();
+})
+//Get Pending Researchers route
+router.get('/pending',async ctx=>{
+    ctx.body= await getPendingResearchers();
+})
+//Get Rejected Researchers route
+router.get('/rejected',async ctx=>{
+    ctx.body= await getRejectedResearchers();
+})
 //Insert route
 router.post('/',upload.fields([{name:'img',maxCount:1},{name:'paper',maxCount:1}]),async ctx=>{
 
@@ -39,7 +53,7 @@ router.post('/',upload.fields([{name:'img',maxCount:1},{name:'paper',maxCount:1}
         let img = ctx.response.request.files.img[0].filename;
         let fileName = ctx.response.request.files.paper[0].filename;
         Researcher.paper = fileName;
-        Researcher.img = img;
+        Researcher.avatar = img;
         Researcher = await createResearcher(Researcher);
         ctx.response.status = 200;
         ctx.body = Researcher;
@@ -47,7 +61,6 @@ router.post('/',upload.fields([{name:'img',maxCount:1},{name:'paper',maxCount:1}
         console.log(e);
         ctx.response.status = 401;
     }
-
 })
 //Get By Id route
 router.get('/:id',async ctx=>{
@@ -67,6 +80,31 @@ router.put('/:id',async ctx=>{
     researcher = await updateResearcher(id,researcher);
     ctx.response.status = 200;
     ctx.body = researcher;
+})
+
+// Get avatar image route
+router.get('/image/:filename', async ctx => {
+    // Get filename from the parameter
+    const filename = ctx.params.filename;
+    // Define image path
+    const path = `./public/uploads/images/researchers/${filename}`;
+    // Create a mime-type and set it as the content type in the response header
+    const mimeType = mime.lookup(path);
+    ctx.response.set('content-type', mimeType);
+    // Create a readable stream of the image and return it as the response
+    ctx.body = fs.createReadStream(path);
+})
+// Get research paper route
+router.get('/paper/:filename', async ctx => {
+    // Get filename from the parameter
+    const filename = ctx.params.filename;
+    // Define image path
+    const path = `./public/uploads/ResearchPapers/${filename}`;
+    // Create a mime-type and set it as the content type in the response header
+    const mimeType = mime.lookup(path);
+    ctx.response.set('content-type', mimeType);
+    // Create a readable stream of the image and return it as the response
+    ctx.body = fs.createReadStream(path);
 })
 //Export the routes
 module.exports = router;

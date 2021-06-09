@@ -1,12 +1,12 @@
 //Import the methods 
-const {getAll, getById, removeById, save, update} = require('../dal/workshop.dao');
+const {getAll, getById, removeById, save, update,getApproved,getRejected,getPending} = require('../dal/workshop.dao');
 
 const {saveUser,updateUser,deleteLogin} = require("../dal/login.dao");
 
 //Require bcrypt
 const bcrypt = require('bcrypt');
 //Map the save() method
-const createWorkshop = async ({workshopName, presentersName ,email,contact,password,country,jobTitle,company,img,proposal}) => {
+const createWorkshop = async ({workshopName, presentersName ,email,contact,password,country,jobTitle,company,avatar,proposal}) => {
 
     //Encrypt the password
     password = await bcrypt.hash(password,5);
@@ -19,7 +19,7 @@ const createWorkshop = async ({workshopName, presentersName ,email,contact,passw
         country,
         jobTitle,
         company,
-        img,
+        avatar,
         proposal,
         createdAt: new Date()
     }
@@ -48,6 +48,18 @@ const getWorkshops = async ()=>{
 const getWorkshop = async id =>{
     return await getById(id);
 }
+//Map the getApproved() method
+const getApprovedWorkshops = async ()=>{
+    return await getApproved();
+}
+//Map the getPending() method
+const getPendingWorkshops = async ()=>{
+    return await getPending();
+}
+//Map the getRejected() method
+const getRejectedWorkshops = async ()=>{
+    return await getRejected();
+}
 //Map the removeById() method
 const deleteWorkshop = async id =>{
     let result = await deleteLogin(id);
@@ -57,7 +69,7 @@ const deleteWorkshop = async id =>{
     return {status:"Failed",message:"Delete Failed"}
 }
 //Map the update method
-const updateWorkshop = async (id,{workshopName, presentersName ,email,contact,password,country,jobTitle,company,img,proposal,createdAt})=>{
+const updateWorkshop = async (id,{workshopName, presentersName ,email,contact,password,country,jobTitle,company,avatar,proposal,createdAt})=>{
     //Create a Workshop object
     const workshop = {
         workshopName,
@@ -67,7 +79,7 @@ const updateWorkshop = async (id,{workshopName, presentersName ,email,contact,pa
         country,
         jobTitle,
         company,
-        img,
+        avatar,
         proposal,
         createdAt
     }
@@ -97,5 +109,8 @@ module.exports = {
     getWorkshops,
     getWorkshop,
     deleteWorkshop,
-    updateWorkshop
+    updateWorkshop,
+    getApprovedWorkshops,
+    getPendingWorkshops,
+    getRejectedWorkshops
 }

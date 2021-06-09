@@ -12,6 +12,13 @@ const workshopRoutes = require('./routes/workshop.routes');
 const loginRoutes = require('./routes/login.routes');
 const attendeeRoutes = require('./routes/attendee.routes')
 const infoRoutes = require('./routes/info.routes')
+const notificationRoutes = require('./routes/notification.routes')
+const trackRoutes = require('./routes/track.routes')
+const sponsorRoutes = require('./routes/sponsor.routes')
+const templateRoutes = require('./routes/template.routes')
+const paymentRoutes = require('./routes/payment.routes')
+const keynoteRoutes = require('./routes/keynote.routes')
+const pagesRoutes = require('./routes/pages.routes')
 
 //Import cors
 const cors = require('@koa/cors');
@@ -22,8 +29,7 @@ const cors = require('@koa/cors');
 const app = new Koa();
 //Use BodyParser
 app.use(bodyParser());
-//Use multer
-// app.use(multer());
+
 //Use cors
 app.use(cors());
 
@@ -39,6 +45,14 @@ app.use(workshopRoutes.routes()).use(workshopRoutes.allowedMethods());
 app.use(loginRoutes.routes()).use(loginRoutes.allowedMethods());
 app.use(attendeeRoutes.routes()).use(attendeeRoutes.allowedMethods());
 app.use(infoRoutes.routes()).use(infoRoutes.allowedMethods());
+app.use(notificationRoutes.routes()).use(notificationRoutes.allowedMethods());
+app.use(trackRoutes.routes()).use(trackRoutes.allowedMethods());
+app.use(sponsorRoutes.routes()).use(sponsorRoutes.allowedMethods());
+app.use(templateRoutes.routes()).use(templateRoutes.allowedMethods());
+app.use(paymentRoutes.routes()).use(paymentRoutes.allowedMethods());
+app.use(keynoteRoutes.routes()).use(keynoteRoutes.allowedMethods());
+app.use(pagesRoutes.routes()).use(pagesRoutes.allowedMethods());
+
 //Setup the port
 let port = process.env.PORT;
 if (port == null || port == "") {

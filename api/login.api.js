@@ -57,9 +57,6 @@ const authenticateAdminUser = async ({email,password}) => {
             }else{
                 return {auth:false,message:"Access Denied"}
             }
-
-
-
         }else {
             return {auth:false,message:"Password Incorrect"}
         }

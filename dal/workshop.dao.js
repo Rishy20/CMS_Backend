@@ -40,11 +40,29 @@ const update = async (id, workshop) =>{
     const result = await workshops.replaceOne({_id:ObjectId(id)}, workshop);
     return result.modifiedCount;
 }
+//Get approved workshops
+const getApproved= async () =>{
+    const cursor = await workshops.find({status:"approved"});
+    return cursor.toArray();
+}
+//Get pending workshops
+const getPending= async () =>{
+    const cursor = await workshops.find({status:"pending"});
+    return cursor.toArray();
+}
+//Get rejected workshops
+const getRejected= async () =>{
+    const cursor = await workshops.find({status:"rejected"});
+    return cursor.toArray();
+}
 //Export the methods
 module.exports = {
     getAll,
     getById,
     removeById,
     save,
-    update
+    update,
+    getApproved,
+    getPending,
+    getRejected
 };
