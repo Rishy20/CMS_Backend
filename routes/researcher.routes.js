@@ -49,11 +49,18 @@ router.get('/rejected',async ctx=>{
 router.post('/',upload.fields([{name:'img',maxCount:1},{name:'paper',maxCount:1}]),async ctx=>{
 
     try {
-        let Researcher = JSON.parse(ctx.request.body.value);
-        let img = ctx.response.request.files.img[0].filename;
-        let fileName = ctx.response.request.files.paper[0].filename;
-        Researcher.paper = fileName;
-        Researcher.avatar = img;
+
+        let Researcher = ctx.request.body;
+
+        if (ctx.request.body.value) {
+            Researcher = JSON.parse(ctx.request.body.value);
+            let img = ctx.response.request.files.img[0].filename;
+            let fileName = ctx.response.request.files.paper[0].filename;
+            Researcher.paper = fileName;
+            Researcher.img = img;
+        }
+
+
         Researcher = await createResearcher(Researcher);
         ctx.response.status = 200;
         ctx.body = Researcher;

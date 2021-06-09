@@ -49,7 +49,7 @@ const getRejected= async () =>{
 //Delete method
 const removeById = async id =>{
     const result = await researchers.deleteOne({_id:ObjectId(id)});
-    return result.insertedId;
+    return result.deletedCount;
 }
 //Update method
 const update = async (id, researcher) =>{
