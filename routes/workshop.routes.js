@@ -37,11 +37,17 @@ router.get('/',async ctx=>{
 router.post('/',upload.fields([{name:'img',maxCount:1},{name:'proposal',maxCount:1}]),async ctx=>{
 
     try {
-        let Workshop = JSON.parse(ctx.request.body.value);
-        let img = ctx.response.request.files.img[0].filename;
-        let fileName = ctx.response.request.files.proposal[0].filename;
-        Workshop.proposal = fileName;
-        Workshop.avatar = img;
+        let Workshop = ctx.request.body;
+
+        if (Workshop.value) {
+            Workshop = JSON.parse(Workshop.value);
+            let img = ctx.response.request.files.img[0].filename;
+            let fileName = ctx.response.request.files.proposal[0].filename;
+            Workshop.proposal = fileName;
+            Workshop.avatar = img;
+        }
+
+
         Workshop = await createWorkshop(Workshop);
         ctx.response.status = 200;
         ctx.body = Workshop;

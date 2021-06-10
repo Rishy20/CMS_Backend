@@ -85,7 +85,6 @@ const updateWorkshop = async (id,{workshopName, presentersName ,email,contact,pa
     }
     //Create a user object to update them in the Login collection
     const user = {
-        _id:id,
         email,
         password,
         userType:"workshop"

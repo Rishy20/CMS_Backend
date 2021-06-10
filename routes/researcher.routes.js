@@ -52,8 +52,8 @@ router.post('/',upload.fields([{name:'img',maxCount:1},{name:'paper',maxCount:1}
 
         let Researcher = ctx.request.body;
 
-        if (ctx.request.body.value) {
-            Researcher = JSON.parse(ctx.request.body.value);
+        if (Researcher.value) {
+            Researcher = JSON.parse(Researcher.value);
             let img = ctx.response.request.files.img[0].filename;
             let fileName = ctx.response.request.files.paper[0].filename;
             Researcher.paper = fileName;
