@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt');
 const {saveUser,updateUser,deleteLogin,getUserById} = require("../dal/login.dao");
 
 //Map the save() method
-const createReviewer = async ({fname,lname,email,password,contact,country}) => {
+const createReviewer = async ({fname, lname, email, password, contact, status}) => {
 
     //Encrypt the password
     password = await bcrypt.hash(password,5);
@@ -16,8 +16,7 @@ const createReviewer = async ({fname,lname,email,password,contact,country}) => {
         lname,
         email,
         contact,
-        country,
-        status: "pending",
+        status: status ? status : "pending",
         createdAt: new Date()
     }
     // Pass the reviewer object to save() method
@@ -29,7 +28,7 @@ const createReviewer = async ({fname,lname,email,password,contact,country}) => {
         email,
         password,
         userType:"reviewer",
-        status: "pending"
+        status: status ? status : "pending",
     }
     let id = await saveUser(user);
 
@@ -56,14 +55,13 @@ const deleteReviewer = async id =>{
     return {status:"Failed",message:"Delete Failed"}
 }
 //Map the update method
-const updateReviewer = async (id, {fname, lname, email, password, contact, country, avatar, status, createdAt})=>{
+const updateReviewer = async (id, {fname, lname, email, password, contact, avatar, status, createdAt})=>{
     //Create a Reviewer object
     const reviewer = {
         fname,
         lname,
         email,
         contact,
-        country,
         avatar,
         status,
         createdAt

@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt');
 const {saveUser,updateUser,deleteLogin,getUserById} = require("../dal/login.dao")
 
 //Map the save() method
-const createEditor = async ({fname,lname,email,password,contact}) => {
+const createEditor = async ({fname,lname,email,password,contact, status}) => {
 
     //Encrypt the password
     password = await bcrypt.hash(password,5);
@@ -15,7 +15,7 @@ const createEditor = async ({fname,lname,email,password,contact}) => {
         lname,
         email,
         contact,
-        status: "pending",
+        status: status ? status : "pending",
         createdAt: new Date()
     }
     // Pass the editor object to save() method
@@ -27,7 +27,7 @@ const createEditor = async ({fname,lname,email,password,contact}) => {
         email,
         password,
         userType:"editor",
-        status: "pending"
+        status: status ? status : "pending",
     }
     let id = await saveUser(user);
     if(id === 1){
