@@ -3,6 +3,8 @@ const Router = require("@koa/router");
 
 //Import api methods
 const {createKeynote, getKeynote, getKeynotes,updateKeynote,deleteKeynote} =  require('../api/keynote.api');
+const mime = require("mime-types");
+const fs = require("fs");
 
 const router = new Router({
     //route prefix
@@ -47,6 +49,18 @@ router.put('/:id', async ctx=>{
         ctx.response.status = 200;
     }
     ctx.body = keynote;
+})
+// Get avatar image route
+router.get('/image/:filename', async ctx => {
+    // Get filename from the parameter
+    const filename = ctx.params.filename;
+    // Define image path
+    const path = `./public/uploads/images/speakers/${filename}`;
+    // Create a mime-type and set it as the content type in the response header
+    const mimeType = mime.lookup(path);
+    ctx.response.set('content-type', mimeType);
+    // Create a readable stream of the image and return it as the response
+    ctx.body = fs.createReadStream(path);
 })
 //Export the routes
 module.exports = router;
