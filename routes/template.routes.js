@@ -8,7 +8,7 @@ const fs = require('fs');
 const mime = require('mime-types');
 
 // Import API methods
-const {createTemplate, getTemplates, getTemplate, updateTemplate, deleteTemplate} = require('../api/Template.api');
+const {createTemplate, getTemplates, getTemplate, updateTemplate, deleteTemplate} = require('../api/template.api');
 
 // Set storage path for avatars
 let storage = multer.diskStorage({
