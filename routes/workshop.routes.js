@@ -23,7 +23,7 @@ let storage = multer.diskStorage({
 
     destination: function (req, file, cb) {
         if(file.fieldname==="img"){
-            cb(null, 'public/uploads/images/')
+            cb(null, 'public/uploads/images/presenters')
         }else if(file.fieldname==="proposal"){
             cb(null, 'public/uploads/Workshop Proposals/')
         }
@@ -111,9 +111,9 @@ router.patch('/:id/status',async ctx=>{
     ctx.body = Workshop;
 })
 //Update Route
-router.put('/:id',async ctx=>{
+router.put('/:id',upload.single('avatar'),async ctx=>{
     const id = ctx.params.id;
-    let Workshop = ctx.request.body;
+    let Workshop = JSON.parse(ctx.request.body.values);
     Workshop = await updateWorkshop(id,Workshop);
     ctx.response.status = 200;
     ctx.body = Workshop;
