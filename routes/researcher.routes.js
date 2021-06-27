@@ -23,7 +23,7 @@ let storage = multer.diskStorage({
 
     destination: function (req, file, cb) {
         if(file.fieldname==="img"){
-            cb(null, 'public/uploads/images/')
+            cb(null, 'public/uploads/images/researchers')
         }else if(file.fieldname==="paper"){
             cb(null, 'public/uploads/ResearchPapers/')
         }
@@ -80,7 +80,7 @@ router.post('/',upload.fields([{name:'img',maxCount:1},{name:'paper',maxCount:1}
             let img = ctx.response.request.files.img[0].filename;
             let fileName = ctx.response.request.files.paper[0].filename;
             Researcher.paper = fileName;
-            Researcher.img = img;
+            Researcher.avatar = img;
         }
 
 
@@ -107,15 +107,14 @@ router.delete('/:id',async ctx=>{
 router.patch('/:id/status', async ctx=>{
     const id = ctx.params.id;
     let researcher = ctx.request.body;
-    console.log(researcher);
     researcher = await updatePaperStatus(id,researcher)
     ctx.response.status = 200;
     ctx.body = researcher;
 })
 //Update Route
-router.put('/:id',async ctx=>{
+router.put('/:id' , upload.single('avatar'),async ctx=>{
     const id = ctx.params.id;
-    let researcher = ctx.request.body;
+    let researcher = JSON.parse(ctx.request.body.values);
     researcher = await updateResearcher(id,researcher);
     ctx.response.status = 200;
     ctx.body = researcher;

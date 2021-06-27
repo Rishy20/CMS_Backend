@@ -34,6 +34,7 @@ const createWorkshop = async ({workshopName, presentersName ,email,contact,passw
         company,
         avatar,
         proposal,
+        status:"pending",
         createdAt: new Date()
     }
     // Pass the workshop object to save() method

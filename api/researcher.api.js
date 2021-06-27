@@ -19,7 +19,7 @@ const {saveUser,updateUser,deleteLogin} = require("../dal/login.dao");
 //Require bcrypt
 const bcrypt = require('bcrypt');
 //Map the save() method
-const createResearcher = async ({fname,lname,contact,email,password,country,jobTitle,company,bio,avatar,paper}) => {
+const createResearcher = async ({fname,lname,contact,email,password,country,jobTitle,company,avatar,paper}) => {
 
     //Encrypt the password
     password = await bcrypt.hash(password,5);
@@ -32,9 +32,9 @@ const createResearcher = async ({fname,lname,contact,email,password,country,jobT
         country,
         jobTitle,
         company,
-        bio,
         avatar,
         paper,
+        status:"pending",
         createdAt: new Date()
     }
 
@@ -92,7 +92,7 @@ const deleteResearcher = async id =>{
     return {status:"Failed",message:"Delete Failed"}
 }
 //Map the update method
-const updateResearcher = async (id,{fname,lname,contact,email,password,country,jobTitle,company,bio,avatar,paper,createdAt})=>{
+const updateResearcher = async (id,{fname,lname,contact,email,password,country,jobTitle,company,avatar,paper,createdAt})=>{
     //Create a researcher object
     const researcher = {
         fname,
@@ -102,7 +102,6 @@ const updateResearcher = async (id,{fname,lname,contact,email,password,country,j
         country,
         jobTitle,
         company,
-        bio,
         avatar,
         paper,
         createdAt
@@ -133,7 +132,8 @@ const updatePaperStatus = async (id,{reviewerId,status}) => {
             title: "Research Paper approved",
             message: "Congratulations, your research paper got approved. " +
                 "Please click here to make the necessary payments to complete your paper submission",
-            userId: id
+            userId: id,
+            needPayment:true
         })
     }else if(status==="rejected"){
         await createNotification({
