@@ -2,7 +2,7 @@
 const Router = require("@koa/router");
 
 //Import api methods
-const {createEdit, getEdit, getEdits, updateEdit, deleteEdit} =  require('../api/edit.api');
+const {createEdit, getEdit, getEdits, updateEdit, deleteEdit, getEditByEditor} =  require('../api/edit.api');
 
 const router = new Router({
     //route prefix
@@ -49,6 +49,11 @@ router.put('/:id', async ctx=>{
         ctx.response.status = 200;
     }
     ctx.body = edit;
+})
+//Get By Id route
+router.get('/editor/:id',async ctx=>{
+    const id = ctx.params.id;
+    ctx.body = await getEditByEditor(id);
 })
 //Export the routes
 module.exports = router;

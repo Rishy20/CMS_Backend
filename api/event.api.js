@@ -1,4 +1,5 @@
-const ObjectId = require('mongodb').ObjectId;
+const {ObjectId} = require('mongodb');
+
 //Import the methods
 const {getAll, getById, removeById, save, update} = require('../dal/event.dao');
 

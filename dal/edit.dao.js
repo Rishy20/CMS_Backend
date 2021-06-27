@@ -40,11 +40,16 @@ const update = async (id, edit) =>{
     const result = await edits.replaceOne({_id:ObjectId(id)}, edit);
     return result.modifiedCount;
 }
+//GetByEditor method
+const getByEditor = async (id) =>{
+    return await edits.find({userId:ObjectId(id)}).toArray();
+}
 //Export the methods
 module.exports = {
     getAll,
     getById,
     removeById,
     save,
-    update
+    update,
+    getByEditor
 };
