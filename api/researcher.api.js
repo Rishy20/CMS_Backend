@@ -34,6 +34,7 @@ const createResearcher = async ({fname,lname,contact,email,password,country,jobT
         company,
         avatar,
         paper,
+        status:"pending",
         createdAt: new Date()
     }
 
@@ -131,7 +132,8 @@ const updatePaperStatus = async (id,{reviewerId,status}) => {
             title: "Research Paper approved",
             message: "Congratulations, your research paper got approved. " +
                 "Please click here to make the necessary payments to complete your paper submission",
-            userId: id
+            userId: id,
+            needPayment:true
         })
     }else if(status==="rejected"){
         await createNotification({
