@@ -33,11 +33,11 @@ const getTemplate = async id => {
 }
 
 // Map the update() method
-const updateTemplate = async (id, {name, image,createdAt}) => {
+const updateTemplate = async (id, {name, file,createdAt}) => {
     // Create a Template object
     const template = {
         name,
-        image,
+        file,
         createdAt
     }
     let result = await update(id,template);
