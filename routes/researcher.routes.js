@@ -22,7 +22,7 @@ const fs = require("fs");
 let storage = multer.diskStorage({
 
     destination: function (req, file, cb) {
-        if(file.fieldname==="avatar"){
+        if(file.fieldname==="img"){
             cb(null, 'public/uploads/images/')
         }else if(file.fieldname==="paper"){
             cb(null, 'public/uploads/ResearchPapers/')
@@ -69,7 +69,7 @@ router.get('/rejected',async ctx=>{
     ctx.body= await getRejectedResearchers();
 })
 //Insert route
-router.post('/',upload.fields([{name:'avatar',maxCount:1},{name:'paper',maxCount:1}]),async ctx=>{
+router.post('/',upload.fields([{name:'img',maxCount:1},{name:'paper',maxCount:1}]),async ctx=>{
 
     try {
 
@@ -80,7 +80,7 @@ router.post('/',upload.fields([{name:'avatar',maxCount:1},{name:'paper',maxCount
             let img = ctx.response.request.files.img[0].filename;
             let fileName = ctx.response.request.files.paper[0].filename;
             Researcher.paper = fileName;
-            Researcher.img = img;
+            Researcher.avatar = img;
         }
 
 
