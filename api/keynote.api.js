@@ -35,11 +35,7 @@ const getKeynote = async id =>{
 }
 //Map the removeById() method
 const deleteKeynote = async id =>{
-
-    if(result===1){
-        return await removeById(id);
-    }
-    return {status:"Failed",message:"Delete Failed"}
+    return await removeById(id);
 }
 //Map the update method
 const updateKeynote = async (id,{fname,lname,jobTitle,company,country,bio,img})=>{
