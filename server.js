@@ -20,6 +20,8 @@ const paymentRoutes = require('./routes/payment.routes')
 const keynoteRoutes = require('./routes/keynote.routes')
 const pagesRoutes = require('./routes/pages.routes')
 const editRoutes = require('./routes/edit.routes');
+const eventRoutes = require('./routes/event.routes');
+const ticketRoutes = require('./routes/ticket.routes');
 
 
 //Import cors
@@ -55,6 +57,8 @@ app.use(paymentRoutes.routes()).use(paymentRoutes.allowedMethods());
 app.use(keynoteRoutes.routes()).use(keynoteRoutes.allowedMethods());
 app.use(pagesRoutes.routes()).use(pagesRoutes.allowedMethods());
 app.use(editRoutes.routes()).use(editRoutes.allowedMethods());
+app.use(eventRoutes.routes()).use(eventRoutes.allowedMethods());
+app.use(ticketRoutes.routes()).use(ticketRoutes.allowedMethods());
 
 //Setup the port
 let port = process.env.PORT;
