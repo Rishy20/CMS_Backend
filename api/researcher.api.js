@@ -1,6 +1,20 @@
 //Import the methods 
-const {getAll, getById, removeById, save, update, updatePaymentId,getApproved,getRejected,getPending} = require('../dal/researcher.dao');
+const {
+    getAll,
+    getById,
+    removeById,
+    save,
+    update,
+    updatePaymentId,
+    getApproved,
+    getRejected,
+    getPending,
+    updateStatus,
+    getRejectedByReviewer,
+    getApprovedByReviewer
+} = require('../dal/researcher.dao');
 
+const {createNotification} = require("../api/notification.api");
 const {saveUser,updateUser,deleteLogin} = require("../dal/login.dao");
 //Require bcrypt
 const bcrypt = require('bcrypt');
@@ -57,6 +71,14 @@ const getPendingResearchers = async ()=>{
 const getRejectedResearchers = async ()=>{
     return await getRejected();
 }
+//Map the getApprovedByReviewer() method
+const getApprovedResearchersByReviewer = async (id)=>{
+    return await getApprovedByReviewer(id);
+}
+//Map the getRejectedByReviewer() method
+const getRejectedResearchersByReviewer = async (id)=>{
+    return await getRejectedByReviewer(id);
+}
 //Map the getById() method
 const getResearcher = async id =>{
     return await getById(id);
@@ -104,6 +126,25 @@ const updateResearcher = async (id,{fname,lname,contact,email,password,country,j
     }
     return {status:"Fail",msg:"User update Failed"}
 }
+const updatePaperStatus = async (id,{reviewerId,status}) => {
+
+    if(status==="approved") {
+        await createNotification({
+            title: "Research Paper approved",
+            message: "Congratulations, your research paper got approved. " +
+                "Please click here to make the necessary payments to complete your paper submission",
+            userId: id
+        })
+    }else if(status==="rejected"){
+        await createNotification({
+            title: "Research Paper rejected",
+            message: "Sorry, your research paper got rejected. " +
+                "Please try again next year",
+            userId: id
+        })
+    }
+    return await updateStatus(id,reviewerId,status)
+}
 
 const updateResearcherPayment = async (id,paymentId) =>{
     return await updatePaymentId(id,paymentId)
@@ -118,6 +159,9 @@ module.exports = {
     updateResearcherPayment,
     getApprovedResearchers,
     getPendingResearchers,
-    getRejectedResearchers
+    getRejectedResearchers,
+    updatePaperStatus,
+    getApprovedResearchersByReviewer,
+    getRejectedResearchersByReviewer
 }
 

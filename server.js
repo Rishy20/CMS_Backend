@@ -12,7 +12,6 @@ const workshopRoutes = require('./routes/workshop.routes');
 const loginRoutes = require('./routes/login.routes');
 const attendeeRoutes = require('./routes/attendee.routes')
 const infoRoutes = require('./routes/info.routes')
-
 const notificationRoutes = require('./routes/notification.routes')
 const trackRoutes = require('./routes/track.routes')
 const sponsorRoutes = require('./routes/sponsor.routes')
@@ -20,7 +19,6 @@ const templateRoutes = require('./routes/template.routes')
 const paymentRoutes = require('./routes/payment.routes')
 const keynoteRoutes = require('./routes/keynote.routes')
 const pagesRoutes = require('./routes/pages.routes')
-
 const editRoutes = require('./routes/edit.routes');
 
 

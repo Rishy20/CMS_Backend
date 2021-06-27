@@ -55,6 +55,21 @@ const getRejected= async () =>{
     const cursor = await workshops.find({status:"rejected"});
     return cursor.toArray();
 }
+//Update Workshop Status
+const updateStatus = async (id, reviewerId, status) =>{
+    const result = await workshops.updateOne({_id:ObjectId(id)}, {$set:{status:status,reviewerId:ObjectId(reviewerId)}});
+    return result.modifiedCount;
+}
+//Get approved workshops by Reviewer
+const getApprovedByReviewer= async (id) =>{
+    const cursor = await workshops.find({status:"approved",reviewerId: ObjectId(id)});
+    return cursor.toArray();
+}
+//Get rejected workshops by Reviewer
+const getRejectedByReviewer= async (id) =>{
+    const cursor = await workshops.find({status:"rejected",reviewerId: ObjectId(id)});
+    return cursor.toArray();
+}
 //Export the methods
 module.exports = {
     getAll,
@@ -64,5 +79,8 @@ module.exports = {
     update,
     getApproved,
     getPending,
-    getRejected
+    getRejected,
+    updateStatus,
+    getApprovedByReviewer,
+    getRejectedByReviewer
 };

@@ -1,10 +1,23 @@
 //Import the methods 
-const {getAll, getById, removeById, save, update,getApproved,getRejected,getPending} = require('../dal/workshop.dao');
+const {
+    getAll,
+    getById,
+    removeById,
+    save,
+    update,
+    getApproved,
+    getRejected,
+    getPending,
+    updateStatus,
+    getApprovedByReviewer,
+    getRejectedByReviewer
+} = require('../dal/workshop.dao');
 
 const {saveUser,updateUser,deleteLogin} = require("../dal/login.dao");
 
 //Require bcrypt
 const bcrypt = require('bcrypt');
+const {createNotification} = require("./notification.api");
 //Map the save() method
 const createWorkshop = async ({workshopName, presentersName ,email,contact,password,country,jobTitle,company,avatar,proposal}) => {
 
@@ -102,6 +115,32 @@ const updateWorkshop = async (id,{workshopName, presentersName ,email,contact,pa
     }
     return {status:"Fail",msg:"User update Failed"}
 }
+const updateWorkshopStatus = async (id,{reviewerId,status}) => {
+
+    if(status==="approved") {
+        await createNotification({
+            title: "Workshop Proposal approved",
+            message: "Congratulations, your proposal got approved. " ,
+            userId: id
+        })
+    }else if(status==="rejected"){
+        await createNotification({
+            title: "Workshop Proposal rejected",
+            message: "Sorry, your proposal got rejected. " +
+                "Please try again next year",
+            userId: id
+        })
+    }
+    return await updateStatus(id,reviewerId,status)
+}
+//Map the getApprovedByReviewer() method
+const getApprovedWorkshopsByReviewer = async (id)=>{
+    return await getApprovedByReviewer(id);
+}
+//Map the getRejectedByReviewer() method
+const getRejectedWorkshopsByReviewer = async (id)=>{
+    return await getRejectedByReviewer(id);
+}
 //Export the methods to be used in routes
 module.exports = {
     createWorkshop,
@@ -111,5 +150,8 @@ module.exports = {
     updateWorkshop,
     getApprovedWorkshops,
     getPendingWorkshops,
-    getRejectedWorkshops
+    getRejectedWorkshops,
+    updateWorkshopStatus,
+    getRejectedWorkshopsByReviewer,
+    getApprovedWorkshopsByReviewer
 }

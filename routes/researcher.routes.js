@@ -1,7 +1,19 @@
 //Import Koa router
 const Router = require("@koa/router");
 //Import api methods
-const {createResearcher, getResearcher, getResearchers,updateResearcher,deleteResearcher,getApprovedResearchers,getRejectedResearchers,getPendingResearchers} =  require('../api/researcher.api');
+const {
+    createResearcher,
+    getResearcher,
+    getResearchers,
+    updateResearcher,
+    deleteResearcher,
+    getApprovedResearchers,
+    getRejectedResearchers,
+    getPendingResearchers,
+    updatePaperStatus,
+    getApprovedResearchersByReviewer,
+    getRejectedResearchersByReviewer
+} =  require('../api/researcher.api');
 //Import multer
 const multer = require('@koa/multer');
 const mime = require("mime-types");
@@ -32,6 +44,17 @@ const router = new Router({
 //Get All route
 router.get('/',async ctx=>{
     ctx.body= await getResearchers() ;
+})
+//Get Approved Researchers by Reviewer route
+router.get('/approved/:id',async ctx=>{
+    const id = ctx.params.id;
+    ctx.body= await getApprovedResearchersByReviewer(id);
+})
+
+//Get Rejected Researchers by Reviewer route
+router.get('/rejected/:id',async ctx=>{
+    const id = ctx.params.id;
+    ctx.body= await getRejectedResearchersByReviewer(id);
 })
 //Get Approved Researchers route
 router.get('/approved',async ctx=>{
@@ -79,6 +102,15 @@ router.delete('/:id',async ctx=>{
     const id = ctx.params.id;
     ctx.body = await deleteResearcher(id);
 
+})
+//Update Paper Status
+router.patch('/:id/status', async ctx=>{
+    const id = ctx.params.id;
+    let researcher = ctx.request.body;
+    console.log(researcher);
+    researcher = await updatePaperStatus(id,researcher)
+    ctx.response.status = 200;
+    ctx.body = researcher;
 })
 //Update Route
 router.put('/:id',async ctx=>{
