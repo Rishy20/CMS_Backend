@@ -56,10 +56,25 @@ const update = async (id, researcher) =>{
     const result = await researchers.replaceOne({_id:ObjectId(id)}, researcher);
     return result.modifiedCount;
 }
-//Update method
+//Update Payment method
 const updatePaymentId = async (id, paymentId) =>{
     const result = await researchers.updateOne({_id:ObjectId(id)}, {$set:{paymentId:paymentId}});
     return result.modifiedCount;
+}
+//Update Paper Status
+const updateStatus = async (id, reviewerId, status) =>{
+    const result = await researchers.updateOne({_id:ObjectId(id)}, {$set:{status:status,reviewerId:ObjectId(reviewerId)}});
+    return result.modifiedCount;
+}
+//Get approved researchers by Reviewer
+const getApprovedByReviewer= async (id) =>{
+    const cursor = await researchers.find({status:"approved",paymentId: {$ne:null},reviewerId: ObjectId(id)});
+    return cursor.toArray();
+}
+//Get rejected researchers by Reviewer
+const getRejectedByReviewer= async (id) =>{
+    const cursor = await researchers.find({status:"rejected",reviewerId: ObjectId(id)});
+    return cursor.toArray();
 }
 //Export the methods
 module.exports = {
@@ -71,5 +86,8 @@ module.exports = {
     updatePaymentId,
     getPending,
     getApproved,
-    getRejected
+    getRejected,
+    updateStatus,
+    getApprovedByReviewer,
+    getRejectedByReviewer
 };

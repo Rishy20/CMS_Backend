@@ -1,7 +1,19 @@
 //Import Koa router
 const Router = require("@koa/router");
 //Import api methods
-const {createWorkshop, getWorkshop, getWorkshops,updateWorkshop,deleteWorkshop,getRejectedWorkshops,getPendingWorkshops,getApprovedWorkshops} =  require('../api/workshop.api');
+const {
+    createWorkshop,
+    getWorkshop,
+    getWorkshops,
+    updateWorkshop,
+    deleteWorkshop,
+    getRejectedWorkshops,
+    getPendingWorkshops,
+    getApprovedWorkshops,
+    updateWorkshopStatus,
+    getApprovedWorkshopsByReviewer,
+    getRejectedWorkshopsByReviewer
+} =  require('../api/workshop.api');
 //Import multer
 const multer = require('@koa/multer');
 const mime = require("mime-types");
@@ -57,15 +69,25 @@ router.post('/',upload.fields([{name:'img',maxCount:1},{name:'proposal',maxCount
     }
 
 })
-//Get Approved Researchers route
+//Get Approved Workshops route By Reviewer
+router.get('/approved/:id',async ctx=>{
+    const id = ctx.params.id;
+    ctx.body= await getApprovedWorkshopsByReviewer(id);
+})
+//Get Pending Workshops route By Reviewer
+router.get('/rejected/:id',async ctx=>{
+    const id = ctx.params.id;
+    ctx.body= await getRejectedWorkshopsByReviewer(id);
+})
+//Get Approved Workshops route
 router.get('/approved',async ctx=>{
     ctx.body= await getApprovedWorkshops();
 })
-//Get Pending Researchers route
+//Get Pending Workshops route
 router.get('/pending',async ctx=>{
     ctx.body= await getPendingWorkshops();
 })
-//Get Rejected Researchers route
+//Get Rejected Workshops route
 router.get('/rejected',async ctx=>{
     ctx.body= await getRejectedWorkshops();
 })
@@ -79,6 +101,14 @@ router.delete('/:id',async ctx=>{
     const id = ctx.params.id;
     ctx.body = await deleteWorkshop(id);
 
+})
+//Update Proposal Status
+router.patch('/:id/status',async ctx=>{
+    const id = ctx.params.id;
+    let Workshop = ctx.request.body;
+    Workshop = await updateWorkshopStatus(id,Workshop);
+    ctx.response.status = 200;
+    ctx.body = Workshop;
 })
 //Update Route
 router.put('/:id',async ctx=>{
