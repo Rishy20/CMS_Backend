@@ -11,7 +11,8 @@ const {
     getPending,
     updateStatus,
     getRejectedByReviewer,
-    getApprovedByReviewer
+    getApprovedByReviewer,
+    getApprovedCount
 } = require('../dal/researcher.dao');
 
 const {createNotification} = require("../api/notification.api");
@@ -91,6 +92,9 @@ const deleteResearcher = async id =>{
     }
     return {status:"Failed",message:"Delete Failed"}
 }
+const getApprovedResearcherCount = async () => {
+    return await getApprovedCount();
+}
 //Map the update method
 const updateResearcher = async (id,{fname,lname,contact,email,country,jobTitle,company,avatar,paper,createdAt,status,reviewerId})=>{
     //Create a researcher object
@@ -159,6 +163,7 @@ module.exports = {
     getRejectedResearchers,
     updatePaperStatus,
     getApprovedResearchersByReviewer,
-    getRejectedResearchersByReviewer
+    getRejectedResearchersByReviewer,
+    getApprovedResearcherCount
 }
 

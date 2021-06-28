@@ -1,5 +1,5 @@
 //Import the methods 
-const {getAll, getById, removeById, save, update} = require('../dal/keynote.dao');
+const {getAll, getById, removeById, save, update,getCount} = require('../dal/keynote.dao');
 
 
 //Map the save() method
@@ -60,12 +60,17 @@ const updateKeynote = async (id,{fname,lname,jobTitle,company,country,bio,img})=
 
     return {status:"Fail",msg:"Keynote update Failed"}
 }
+//Map the getCount() method
+const getKeyNoteCount = async ()=>{
+    return await getCount();
+}
 //Export the methods to be used in routes
 module.exports = {
     createKeynote,
     getKeynotes,
     getKeynote,
     deleteKeynote,
-    updateKeynote
+    updateKeynote,
+    getKeyNoteCount
 }
 

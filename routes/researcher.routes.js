@@ -12,7 +12,8 @@ const {
     getPendingResearchers,
     updatePaperStatus,
     getApprovedResearchersByReviewer,
-    getRejectedResearchersByReviewer
+    getRejectedResearchersByReviewer,
+    getApprovedResearcherCount
 } =  require('../api/researcher.api');
 //Import multer
 const multer = require('@koa/multer');
@@ -67,6 +68,10 @@ router.get('/pending',async ctx=>{
 //Get Rejected Researchers route
 router.get('/rejected',async ctx=>{
     ctx.body= await getRejectedResearchers();
+})
+//Get Count route
+router.get('/count',async ctx=> {
+    ctx.body= await getApprovedResearcherCount() ;
 })
 //Insert route
 router.post('/',upload.fields([{name:'img',maxCount:1},{name:'paper',maxCount:1}]),async ctx=>{
@@ -144,5 +149,6 @@ router.get('/paper/:filename', async ctx => {
     // Create a readable stream of the image and return it as the response
     ctx.body = fs.createReadStream(path);
 })
+
 //Export the routes
 module.exports = router;

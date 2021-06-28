@@ -10,7 +10,8 @@ const {
     getPending,
     updateStatus,
     getApprovedByReviewer,
-    getRejectedByReviewer
+    getRejectedByReviewer,
+    getApprovedCount
 } = require('../dal/workshop.dao');
 
 const {saveUser,updateUserEmail,deleteLogin} = require("../dal/login.dao");
@@ -82,6 +83,9 @@ const deleteWorkshop = async id =>{
     }
     return {status:"Failed",message:"Delete Failed"}
 }
+const getApprovedWorkshopCount = async () => {
+    return await getApprovedCount();
+}
 //Map the update method
 const updateWorkshop = async (id,{workshopName, presentersName ,email,contact,country,jobTitle,company,avatar,proposal,createdAt})=>{
     //Create a Workshop object
@@ -149,5 +153,6 @@ module.exports = {
     getRejectedWorkshops,
     updateWorkshopStatus,
     getRejectedWorkshopsByReviewer,
-    getApprovedWorkshopsByReviewer
+    getApprovedWorkshopsByReviewer,
+    getApprovedWorkshopCount
 }

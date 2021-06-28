@@ -70,6 +70,10 @@ const getRejectedByReviewer= async (id) =>{
     const cursor = await workshops.find({status:"rejected",reviewerId: ObjectId(id)});
     return cursor.toArray();
 }
+//Get approved workshop count
+const getApprovedCount= async () =>{
+    return await workshops.find({status:"approved"}).count();
+}
 //Export the methods
 module.exports = {
     getAll,
@@ -82,5 +86,6 @@ module.exports = {
     getRejected,
     updateStatus,
     getApprovedByReviewer,
-    getRejectedByReviewer
+    getRejectedByReviewer,
+    getApprovedCount
 };

@@ -76,6 +76,10 @@ const getRejectedByReviewer= async (id) =>{
     const cursor = await researchers.find({status:"rejected",reviewerId: ObjectId(id)});
     return cursor.toArray();
 }
+//Get approved researchers count
+const getApprovedCount= async () =>{
+    return await researchers.find({status:"approved",paymentId: {$ne:null}}).count();
+}
 //Export the methods
 module.exports = {
     getAll,
@@ -89,5 +93,6 @@ module.exports = {
     getRejected,
     updateStatus,
     getApprovedByReviewer,
-    getRejectedByReviewer
+    getRejectedByReviewer,
+    getApprovedCount
 };
