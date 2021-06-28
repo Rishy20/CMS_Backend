@@ -13,7 +13,7 @@ const {
     getRejectedByReviewer
 } = require('../dal/workshop.dao');
 
-const {saveUser,updateUser,deleteLogin} = require("../dal/login.dao");
+const {saveUser,updateUserEmail,deleteLogin} = require("../dal/login.dao");
 
 //Require bcrypt
 const bcrypt = require('bcrypt');
@@ -83,7 +83,7 @@ const deleteWorkshop = async id =>{
     return {status:"Failed",message:"Delete Failed"}
 }
 //Map the update method
-const updateWorkshop = async (id,{workshopName, presentersName ,email,contact,password,country,jobTitle,company,avatar,proposal,createdAt})=>{
+const updateWorkshop = async (id,{workshopName, presentersName ,email,contact,country,jobTitle,company,avatar,proposal,createdAt})=>{
     //Create a Workshop object
     const workshop = {
         workshopName,
@@ -97,18 +97,13 @@ const updateWorkshop = async (id,{workshopName, presentersName ,email,contact,pa
         proposal,
         createdAt
     }
-    //Create a user object to update them in the Login collection
-    const user = {
-        email,
-        password,
-        userType:"workshop"
-    }
+
     //Update the workshop in the db
     let result = await update(id,workshop);
     //Check if the update is successful
     if(result === 1){
         //Update the login credentials
-        result = await updateUser(id,user);
+        result = await updateUserEmail(id,email);
         //Check if update is successful
         if(result === 1){
             return {status:"Success",msg:"User updated Successfully"}

@@ -1,7 +1,7 @@
 const {ObjectId} = require('mongodb');
 
 //Import the methods
-const {getAll, getById, removeById, save, update} = require('../dal/event.dao');
+const {getAll, getById, removeById, save, update,getByDay} = require('../dal/event.dao');
 
 
 //Map the save() method
@@ -55,8 +55,6 @@ const updateEvent = async (id,{dayNumber,date,startTime,endTime,type,name,resear
         workshop: type === "Workshop" ? ObjectId(workshop) : null,
     }
 
-
-
     let result = await update(id,Event);
     //Check if update is successful
     if(result === 1){
@@ -65,12 +63,16 @@ const updateEvent = async (id,{dayNumber,date,startTime,endTime,type,name,resear
 
     return {status:"Fail",msg:"Event update Failed"}
 }
+const getEventByDay = async day => {
+    return await getByDay(day);
+}
 //Export the methods to be used in routes
 module.exports = {
     createEvent,
     getEvents,
     getEvent,
     deleteEvent,
-    updateEvent
+    updateEvent,
+    getEventByDay
 }
 
