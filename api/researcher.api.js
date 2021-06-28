@@ -15,7 +15,7 @@ const {
 } = require('../dal/researcher.dao');
 
 const {createNotification} = require("../api/notification.api");
-const {saveUser,updateUser,deleteLogin} = require("../dal/login.dao");
+const {saveUser,updateUserEmail,deleteLogin} = require("../dal/login.dao");
 //Require bcrypt
 const bcrypt = require('bcrypt');
 //Map the save() method
@@ -92,7 +92,7 @@ const deleteResearcher = async id =>{
     return {status:"Failed",message:"Delete Failed"}
 }
 //Map the update method
-const updateResearcher = async (id,{fname,lname,contact,email,password,country,jobTitle,company,avatar,paper,createdAt,status,reviewerId})=>{
+const updateResearcher = async (id,{fname,lname,contact,email,country,jobTitle,company,avatar,paper,createdAt,status,reviewerId})=>{
     //Create a researcher object
     const researcher = {
         fname,
@@ -108,18 +108,13 @@ const updateResearcher = async (id,{fname,lname,contact,email,password,country,j
         status,
         reviewerId
     }
-    //Create a user object to update them in the Login collection
-    const user = {
-        email,
-        password,
-        userType:"researcher"
-    }
+
     //Update the researcher in the db
     let result = await update(id,researcher);
     //Check if the update is successful
     if(result === 1){
         //Update the login credentials
-        result = await updateUser(id,user);
+        result = await updateUserEmail(id,email);
         //Check if update is successful
         if(result === 1){
             return {status:"Success",msg:"User updated Successfully"}

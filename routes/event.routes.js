@@ -2,7 +2,7 @@
 const Router = require("@koa/router");
 
 //Import api methods
-const {createEvent, getEvent, getEvents, updateEvent, deleteEvent} =  require('../api/event.api');
+const {createEvent, getEvent, getEvents, updateEvent, deleteEvent, getEventByDay} =  require('../api/event.api');
 
 const router = new Router({
     //route prefix
@@ -24,6 +24,11 @@ router.post('/',async ctx=>{
         ctx.response.status = 200;
     }
     ctx.body = event;
+})
+//Get By Day route
+router.get('/day/:day',async ctx=>{
+    const day = ctx.params.day;
+    ctx.body = await getEventByDay(day);
 })
 //Get By Id route
 router.get('/:id',async ctx=>{
