@@ -5,7 +5,7 @@ const {getAll, getById, removeById, save, update} = require('../dal/event.dao');
 
 
 //Map the save() method
-const createEvent = async ({dayNumber,date,time,type,name,researcher,workshop}) => {
+const createEvent = async ({dayNumber,date,startTime,endTime,type,name,researcher,workshop}) => {
 
     //Create an Event object
     const Event = {
@@ -13,7 +13,8 @@ const createEvent = async ({dayNumber,date,time,type,name,researcher,workshop}) 
         type,
         dayNumber,
         date,
-        time,
+        startTime,
+        endTime,
         researcher: type === "Research Proposal" ? ObjectId(researcher) : null,
         workshop: type === "Workshop" ? ObjectId(workshop) : null,
     }
@@ -40,7 +41,7 @@ const deleteEvent = async id =>{
     return await removeById(id);
 }
 //Map the update method
-const updateEvent = async (id,{dayNumber,date,time,type,name,researcher,workshop})=>{
+const updateEvent = async (id,{dayNumber,date,startTime,endTime,type,name,researcher,workshop})=>{
 
     //Create an Event object
     const Event = {
@@ -48,7 +49,8 @@ const updateEvent = async (id,{dayNumber,date,time,type,name,researcher,workshop
         type,
         dayNumber,
         date,
-        time,
+        startTime,
+        endTime,
         researcher: type === "Research Proposal" ? ObjectId(researcher) : null,
         workshop: type === "Workshop" ? ObjectId(workshop) : null,
     }
