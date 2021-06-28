@@ -113,8 +113,7 @@ router.patch('/:id/status', async ctx=>{
 })
 //Update Route
 router.put('/:id' , upload.single('avatar'),async ctx=>{
-    const id = ctx.params.id;
-    console.log(id)
+    const id = ctx.params.id
     let researcher = JSON.parse(ctx.request.body.values);
     researcher = await updateResearcher(id,researcher);
     ctx.response.status = 200;
