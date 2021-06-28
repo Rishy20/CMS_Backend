@@ -16,9 +16,10 @@ const {
 } = require('../dal/researcher.dao');
 
 const {createNotification} = require("../api/notification.api");
-const {saveUser,updateUserEmail,deleteLogin} = require("../dal/login.dao");
+const {saveUser,deleteLogin,updateUser,getUserById} = require("../dal/login.dao");
 //Require bcrypt
 const bcrypt = require('bcrypt');
+
 //Map the save() method
 const createResearcher = async ({fname,lname,contact,email,password,country,jobTitle,company,avatar,paper}) => {
 
@@ -96,7 +97,7 @@ const getApprovedResearcherCount = async () => {
     return await getApprovedCount();
 }
 //Map the update method
-const updateResearcher = async (id,{fname,lname,contact,email,country,jobTitle,company,avatar,paper,createdAt,status,reviewerId})=>{
+const updateResearcher = async (id,{fname,lname,contact,email,password,country,jobTitle,company,avatar,paper,createdAt,status,reviewerId})=>{
     //Create a researcher object
     const researcher = {
         fname,
@@ -115,10 +116,18 @@ const updateResearcher = async (id,{fname,lname,contact,email,country,jobTitle,c
 
     //Update the researcher in the db
     let result = await update(id,researcher);
+    // Check whether a password is given or not
+    if (password) {
+        // Encrypt the new password
+        password = await bcrypt.hash(password, 5);
+    } else {
+        // Use existing password if the password given is null
+        await getUserById(id).then(data => password = data.password);
+    }
     //Check if the update is successful
     if(result === 1){
         //Update the login credentials
-        result = await updateUserEmail(id,email);
+        result = await updateUser(id,email);
         //Check if update is successful
         if(result === 1){
             return {status:"Success",msg:"User updated Successfully"}

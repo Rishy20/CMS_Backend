@@ -14,10 +14,11 @@ const {
     getApprovedCount
 } = require('../dal/workshop.dao');
 
-const {saveUser,updateUserEmail,deleteLogin} = require("../dal/login.dao");
+const {saveUser,updateUser,deleteLogin,getUserById} = require("../dal/login.dao");
 
 //Require bcrypt
 const bcrypt = require('bcrypt');
+
 const {createNotification} = require("./notification.api");
 //Map the save() method
 const createWorkshop = async ({workshopName, presentersName ,email,contact,password,country,jobTitle,company,avatar,proposal}) => {
@@ -87,7 +88,7 @@ const getApprovedWorkshopCount = async () => {
     return await getApprovedCount();
 }
 //Map the update method
-const updateWorkshop = async (id,{workshopName, presentersName ,email,contact,country,jobTitle,company,avatar,proposal,createdAt})=>{
+const updateWorkshop = async (id,{workshopName, presentersName ,email,password,contact,country,jobTitle,company,avatar,proposal,createdAt})=>{
     //Create a Workshop object
     const workshop = {
         workshopName,
@@ -104,10 +105,18 @@ const updateWorkshop = async (id,{workshopName, presentersName ,email,contact,co
 
     //Update the workshop in the db
     let result = await update(id,workshop);
+    // Check whether a password is given or not
+    if (password) {
+        // Encrypt the new password
+        password = await bcrypt.hash(password, 5);
+    } else {
+        // Use existing password if the password given is null
+        await getUserById(id).then(data => password = data.password);
+    }
     //Check if the update is successful
     if(result === 1){
         //Update the login credentials
-        result = await updateUserEmail(id,email);
+        result = await updateUser(id,email);
         //Check if update is successful
         if(result === 1){
             return {status:"Success",msg:"User updated Successfully"}
