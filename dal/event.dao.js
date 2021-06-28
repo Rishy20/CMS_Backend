@@ -68,6 +68,15 @@ const getByDay = async (day) => {
         },
         {
             $lookup:{
+                from:"Keynotes",
+                localField:"keynote",
+                foreignField:"_id",
+                as:"keynote"
+            },
+
+        },
+        {
+            $lookup:{
                 from:"Workshops",
                 localField:"workshop",
                 foreignField:"_id",
@@ -75,7 +84,7 @@ const getByDay = async (day) => {
             }
         },
         {
-            $sort: {time:1}
+            $sort: {startTime:1}
         }
     ]);
     return cursor.toArray();
