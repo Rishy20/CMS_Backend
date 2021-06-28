@@ -10,7 +10,7 @@ const mime = require('mime-types');
 // Import API methods
 const {createTemplate, getTemplates, getTemplate, updateTemplate, deleteTemplate} = require('../api/template.api');
 
-// Set storage path for avatars
+// Set storage path for files
 let storage = multer.diskStorage({
     destination: (req, file, cb) => {
         const path = 'public/uploads/Templates';
