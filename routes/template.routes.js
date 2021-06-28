@@ -17,8 +17,8 @@ let storage = multer.diskStorage({
         fs.mkdirSync(path, {recursive: true});
         return cb(null, path);
     },
-    filename: (req, file, cb) => {
-        cb(null, JSON.parse(req.body.values).file);
+    filename: function (req, file, cb) {
+        cb(null, file.originalname)
     }
 })
 

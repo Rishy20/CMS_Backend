@@ -1,9 +1,11 @@
-//Import the methods 
+const {ObjectId} = require('mongodb');
+
+//Import the methods
 const {getAll, getById, removeById, save, update} = require('../dal/event.dao');
 
 
 //Map the save() method
-const createEvent = async ({date,time,type,name,workshop}) => {
+const createEvent = async ({date,time,type,name,researcher,workshop}) => {
 
     //Create an Event object
     const Event = {
@@ -11,7 +13,8 @@ const createEvent = async ({date,time,type,name,workshop}) => {
         type,
         date,
         time,
-        workshop: type === "Workshop" ? workshop : "",
+        researcher: type === "Research Proposal" ? ObjectId(researcher) : null,
+        workshop: type === "Workshop" ? ObjectId(workshop) : null,
     }
 
     // Pass the Event object to save() method
@@ -36,7 +39,7 @@ const deleteEvent = async id =>{
     return await removeById(id);
 }
 //Map the update method
-const updateEvent = async (id,{date,time,type,name,workshop})=>{
+const updateEvent = async (id,{date,time,type,name,researcher,workshop})=>{
 
     //Create an Event object
     const Event = {
@@ -44,7 +47,8 @@ const updateEvent = async (id,{date,time,type,name,workshop})=>{
         time,
         type,
         name,
-        workshop: type === "Workshop" ? workshop : "",
+        researcher: type === "Research Proposal" ? ObjectId(researcher) : null,
+        workshop: type === "Workshop" ? ObjectId(workshop) : null,
     }
 
 
