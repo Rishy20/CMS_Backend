@@ -37,7 +37,7 @@ const createResearcher = async ({fname,lname,contact,email,password,country,jobT
         avatar,
         paper,
         status:"pending",
-        paymentId: null
+        paymentId: null,
         createdAt: new Date()
     }
 
