@@ -124,10 +124,16 @@ const updateResearcher = async (id,{fname,lname,contact,email,password,country,j
         // Use existing password if the password given is null
         await getUserById(id).then(data => password = data.password);
     }
+    //Create a user object to update them in the Login collection
+    const user = {
+        email,
+        password,
+        userType:"researcher"
+    }
     //Check if the update is successful
     if(result === 1){
         //Update the login credentials
-        result = await updateUser(id,email);
+        result = await updateUser(id,user);
         //Check if update is successful
         if(result === 1){
             return {status:"Success",msg:"User updated Successfully"}

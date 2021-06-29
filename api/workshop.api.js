@@ -113,6 +113,13 @@ const updateWorkshop = async (id,{workshopName, presentersName ,email,password,c
         // Use existing password if the password given is null
         await getUserById(id).then(data => password = data.password);
     }
+    //Create a user object to update them in the Login collection
+    const user = {
+        email,
+        password,
+        userType:"workshop"
+
+    }
     //Check if the update is successful
     if(result === 1){
         //Update the login credentials
