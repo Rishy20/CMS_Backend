@@ -5,7 +5,7 @@ const {getAll, getById, removeById, save, update,getByDay} = require('../dal/eve
 
 
 //Map the save() method
-const createEvent = async ({dayNumber,date,startTime,endTime,type,name,researcher,workshop}) => {
+const createEvent = async ({dayNumber,date,startTime,endTime,type,name,researcher,workshop,keynote}) => {
 
     //Create an Event object
     const Event = {
@@ -17,6 +17,8 @@ const createEvent = async ({dayNumber,date,startTime,endTime,type,name,researche
         endTime,
         researcher: type === "Research Proposal" ? ObjectId(researcher) : null,
         workshop: type === "Workshop" ? ObjectId(workshop) : null,
+        keynote: type === "Keynote" ? ObjectId(keynote) : null,
+        status: "pending",
     }
 
     // Pass the Event object to save() method
@@ -41,7 +43,7 @@ const deleteEvent = async id =>{
     return await removeById(id);
 }
 //Map the update method
-const updateEvent = async (id,{dayNumber,date,startTime,endTime,type,name,researcher,workshop})=>{
+const updateEvent = async (id,{dayNumber,date,startTime,endTime,type,name,researcher,workshop,keynote,status})=>{
 
     //Create an Event object
     const Event = {
@@ -53,6 +55,8 @@ const updateEvent = async (id,{dayNumber,date,startTime,endTime,type,name,resear
         endTime,
         researcher: type === "Research Proposal" ? ObjectId(researcher) : null,
         workshop: type === "Workshop" ? ObjectId(workshop) : null,
+        keynote: type === "Keynote" ? ObjectId(keynote) : null,
+        status,
     }
 
     let result = await update(id,Event);
