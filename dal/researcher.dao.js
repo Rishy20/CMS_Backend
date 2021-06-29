@@ -80,6 +80,7 @@ const getRejectedByReviewer= async (id) =>{
 const getApprovedCount= async () =>{
     return await researchers.find({status:"approved",paymentId: {$ne:null}}).count();
 }
+
 //Export the methods
 module.exports = {
     getAll,

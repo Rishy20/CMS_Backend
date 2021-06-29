@@ -117,7 +117,7 @@ router.patch('/:id/status', async ctx=>{
     ctx.body = researcher;
 })
 //Update Route
-router.put('/:id' , upload.single('avatar'),async ctx=>{
+router.put('/:id' , upload.single('img'),async ctx=>{
     const id = ctx.params.id
     let researcher = JSON.parse(ctx.request.body.values);
     researcher = await updateResearcher(id,researcher);

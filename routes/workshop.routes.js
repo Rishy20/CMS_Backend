@@ -116,9 +116,10 @@ router.patch('/:id/status',async ctx=>{
     ctx.body = Workshop;
 })
 //Update Route
-router.put('/:id',upload.single('avatar'),async ctx=>{
+router.put('/:id',upload.single('img'),async ctx=>{
     const id = ctx.params.id;
     let Workshop = JSON.parse(ctx.request.body.values);
+    console.log(Workshop);
     Workshop = await updateWorkshop(id,Workshop);
     ctx.response.status = 200;
     ctx.body = Workshop;
