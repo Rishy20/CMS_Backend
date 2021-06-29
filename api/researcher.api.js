@@ -37,6 +37,7 @@ const createResearcher = async ({fname,lname,contact,email,password,country,jobT
         avatar,
         paper,
         status:"pending",
+        paymentId: null
         createdAt: new Date()
     }
 
@@ -97,7 +98,7 @@ const getApprovedResearcherCount = async () => {
     return await getApprovedCount();
 }
 //Map the update method
-const updateResearcher = async (id,{fname,lname,contact,email,password,country,jobTitle,company,avatar,paper,createdAt,status,reviewerId})=>{
+const updateResearcher = async (id,{fname,lname,contact,email,password,country,jobTitle,company,avatar,paper,createdAt,status,reviewerId,paymentId})=>{
     //Create a researcher object
     const researcher = {
         fname,
@@ -111,7 +112,8 @@ const updateResearcher = async (id,{fname,lname,contact,email,password,country,j
         paper,
         createdAt,
         status,
-        reviewerId
+        reviewerId,
+        paymentId
     }
 
     //Update the researcher in the db
