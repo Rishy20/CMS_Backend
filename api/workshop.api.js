@@ -123,7 +123,7 @@ const updateWorkshop = async (id,{workshopName, presentersName ,email,password,c
     //Check if the update is successful
     if(result === 1){
         //Update the login credentials
-        result = await updateUser(id,email);
+        result = await updateUser(id,user);
         //Check if update is successful
         if(result === 1){
             return {status:"Success",msg:"User updated Successfully"}
