@@ -21,11 +21,11 @@ jobs:
       with:
         node-version: '14.x'
 
-    - name: npm install, build, and test
+    - name: npm install, build
       run: |
         npm install
         npm run build --if-present
-        npm run test --if-present
+
 
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v2
@@ -52,5 +52,5 @@ jobs:
       with:
         app-name: 'ICAF'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_f6327c6b7a8b422ba5d6ddefe66085a4 }}
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_4797872a193c4c429ed0b2c0c0e66a5b }}
         package: .

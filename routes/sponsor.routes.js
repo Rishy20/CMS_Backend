@@ -18,7 +18,7 @@ let storage = multer.diskStorage({
         return cb(null, path);
     },
     filename: (req, file, cb) => {
-        cb(null, JSON.parse(req.body.values).image);
+        cb(null, file.originalname);
     }
 })
 
