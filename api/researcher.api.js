@@ -24,7 +24,7 @@ const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
 
 //Map the save() method
-const createResearcher = async ({fname,lname,contact,email,password,country,jobTitle,company,avatar,paper}) => {
+const createResearcher = async ({fname,lname,contact,researchTitle,email,password,country,jobTitle,company,avatar,paper}) => {
 
     //Encrypt the password
     password = await bcrypt.hash(password,5);
@@ -34,6 +34,7 @@ const createResearcher = async ({fname,lname,contact,email,password,country,jobT
         lname,
         email,
         contact,
+        researchTitle,
         country,
         jobTitle,
         company,
@@ -101,13 +102,14 @@ const getApprovedResearcherCount = async () => {
     return await getApprovedCount();
 }
 //Map the update method
-const updateResearcher = async (id,{fname,lname,contact,email,password,country,jobTitle,company,avatar,paper,createdAt,status,reviewerId,paymentId})=>{
+const updateResearcher = async (id,{fname,lname,contact,researchTitle,email,password,country,jobTitle,company,avatar,paper,createdAt,status,reviewerId,paymentId})=>{
     //Create a researcher object
     const researcher = {
         fname,
         lname,
         email,
         contact,
+        researchTitle,
         country,
         jobTitle,
         company,
