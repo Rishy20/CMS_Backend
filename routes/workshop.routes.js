@@ -108,7 +108,7 @@ router.delete('/:id',async ctx=>{
 
 })
 //Update Proposal Status
-router.patch('/:id/status',async ctx=>{
+router.put('/:id/status',async ctx=>{
     const id = ctx.params.id;
     let Workshop = ctx.request.body;
     Workshop = await updateWorkshopStatus(id,Workshop);
