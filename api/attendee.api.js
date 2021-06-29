@@ -20,8 +20,8 @@ const createAttendee = async ({fname,lname,contact,email,city,country,ticket}) =
     // Pass the Attendee object to save() method
     let result =  await save(attendee);
 
-    if(result === 1){
-        return {status:"Success"}
+    if(result){
+        return {status:"Success",id:result}
     }else{
         return {status:"Fail",msg:"User already exists"}
     }

@@ -17,7 +17,7 @@ getClient().then(data=>{
 });
 
 //Save method
-const save = async ({title,message,isChecked,createdAt},userId) => {
+const save = async ({title,message,isChecked,createdAt,needPayment},userId) => {
     let result;
     if (await notifications.countDocuments({userId:ObjectId(userId)},limit=1) != 0){
         result =  await notifications.updateOne({userId:ObjectId(userId)},{
@@ -26,7 +26,8 @@ const save = async ({title,message,isChecked,createdAt},userId) => {
                     title,
                     message,
                     isChecked,
-                    createdAt
+                    createdAt,
+                    needPayment
                 }
             }
         })
@@ -39,7 +40,8 @@ const save = async ({title,message,isChecked,createdAt},userId) => {
                     title,
                     message,
                     isChecked,
-                    createdAt
+                    createdAt,
+                    needPayment
                 }
             ]
         });

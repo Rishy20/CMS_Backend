@@ -4,13 +4,15 @@ const {updateResearcherPayment} = require('./researcher.api')
 const getPayments = async ()=>{
     return await getAll();
 }
+// Import ObjectId
+const {ObjectId} = require('mongodb');
 //Map the save() method
 const makePayment = async ({paymentId, userId, amount, reason}) => {
 
     //Create a payment object
     const payment = {
         _id:paymentId,
-        userId,
+        userId:ObjectId(userId),
         amount,
         reason,
         createdAt: new Date()
@@ -20,12 +22,16 @@ const makePayment = async ({paymentId, userId, amount, reason}) => {
     let result =  await save(payment);
 
     if(result === 1){
-        result = await updateResearcherPayment(userId,paymentId);
-        if(result === 1){
-            return {status:"Success"}
-        }else{
-            return {status:"Fail",msg:"Please try again"}
+        if(reason === "Paper Submission"){
+            result = await updateResearcherPayment(userId,paymentId);
+            if(result === 1){
+                return {status:"Success"}
+            }else{
+                return {status:"Fail",msg:"Please try again"}
+            }
         }
+        return {status:"Success"}
+
     }else{
         return {status:"Fail",msg:"Please try again"}
     }
