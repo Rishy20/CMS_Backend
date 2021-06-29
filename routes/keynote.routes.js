@@ -6,7 +6,7 @@ const multer = require("@koa/multer");
 const Router = require("@koa/router");
 
 //Import api methods
-const {createKeynote, getKeynote, getKeynotes,updateKeynote,deleteKeynote} =  require('../api/keynote.api');
+const {createKeynote, getKeynote, getKeynotes,updateKeynote,deleteKeynote,getKeyNoteCount} =  require('../api/keynote.api');
 
 // Set storage path for files
 let storage = multer.diskStorage({
@@ -30,6 +30,10 @@ const router = new Router({
 //Get All route
 router.get('/',async ctx=> {
     ctx.body= await getKeynotes() ;
+})
+//Get Count route
+router.get('/count',async ctx=> {
+    ctx.body= await getKeyNoteCount() ;
 })
 //Insert route
 router.post('/', upload.single('file'), async ctx=>{

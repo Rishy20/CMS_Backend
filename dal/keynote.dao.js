@@ -40,11 +40,16 @@ const update = async (id, keynote) =>{
     const result = await keynotes.replaceOne({_id:ObjectId(id)}, keynote);
     return result.modifiedCount;
 }
+const getCount = async () =>{
+    const result = await keynotes.countDocuments();
+    return result;
+}
 //Export the methods
 module.exports = {
     getAll,
     getById,
     removeById,
     save,
-    update
+    update,
+    getCount
 };

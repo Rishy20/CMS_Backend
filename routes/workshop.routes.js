@@ -12,7 +12,8 @@ const {
     getApprovedWorkshops,
     updateWorkshopStatus,
     getApprovedWorkshopsByReviewer,
-    getRejectedWorkshopsByReviewer
+    getRejectedWorkshopsByReviewer,
+    getApprovedWorkshopCount
 } =  require('../api/workshop.api');
 //Import multer
 const multer = require('@koa/multer');
@@ -90,6 +91,10 @@ router.get('/pending',async ctx=>{
 //Get Rejected Workshops route
 router.get('/rejected',async ctx=>{
     ctx.body= await getRejectedWorkshops();
+})
+//Get Count route
+router.get('/count',async ctx=> {
+    ctx.body= await getApprovedWorkshopCount() ;
 })
 //Get By Id route
 router.get('/:id',async ctx=>{
