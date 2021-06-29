@@ -21,7 +21,7 @@ const save = async (attendee) => {
 
     if (await attendees.countDocuments({email:attendee.email},limit=1) === 0){
         const result = await attendees.insertOne(attendee);
-        return result.insertedCount;
+        return result.insertedId;
     }else{
         return 0;
     }

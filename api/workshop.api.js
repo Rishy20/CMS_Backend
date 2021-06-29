@@ -88,7 +88,7 @@ const getApprovedWorkshopCount = async () => {
     return await getApprovedCount();
 }
 //Map the update method
-const updateWorkshop = async (id,{workshopName, presentersName ,email,password,contact,country,jobTitle,company,avatar,proposal,createdAt})=>{
+const updateWorkshop = async (id,{workshopName, presentersName ,email,password,contact,country,jobTitle,company,avatar,proposal,createdAt,status})=>{
     //Create a Workshop object
     const workshop = {
         workshopName,
@@ -100,7 +100,8 @@ const updateWorkshop = async (id,{workshopName, presentersName ,email,password,c
         company,
         avatar,
         proposal,
-        createdAt
+        createdAt,
+        status
     }
 
     //Update the workshop in the db
@@ -113,10 +114,17 @@ const updateWorkshop = async (id,{workshopName, presentersName ,email,password,c
         // Use existing password if the password given is null
         await getUserById(id).then(data => password = data.password);
     }
+    //Create a user object to update them in the Login collection
+    const user = {
+        email,
+        password,
+        userType:"workshop"
+
+    }
     //Check if the update is successful
     if(result === 1){
         //Update the login credentials
-        result = await updateUser(id,email);
+        result = await updateUser(id,user);
         //Check if update is successful
         if(result === 1){
             return {status:"Success",msg:"User updated Successfully"}

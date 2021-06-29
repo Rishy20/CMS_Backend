@@ -3,12 +3,13 @@ const {getById,  save, updateStatus,getCount} = require('../dal/notification.dao
 
 
 //Map the save() method
-const createNotification = async ({title,message,userId}) => {
+const createNotification = async ({title,message,userId,needPayment}) => {
 
     //Create an notification object
     const notification = {
        title,
         message,
+        needPayment,
        isChecked: false,
         createdAt: new Date()
     }

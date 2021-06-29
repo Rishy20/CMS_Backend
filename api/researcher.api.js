@@ -37,6 +37,7 @@ const createResearcher = async ({fname,lname,contact,email,password,country,jobT
         avatar,
         paper,
         status:"pending",
+        paymentId: null,
         createdAt: new Date()
     }
 
@@ -97,7 +98,7 @@ const getApprovedResearcherCount = async () => {
     return await getApprovedCount();
 }
 //Map the update method
-const updateResearcher = async (id,{fname,lname,contact,email,password,country,jobTitle,company,avatar,paper,createdAt,status,reviewerId})=>{
+const updateResearcher = async (id,{fname,lname,contact,email,password,country,jobTitle,company,avatar,paper,createdAt,status,reviewerId,paymentId})=>{
     //Create a researcher object
     const researcher = {
         fname,
@@ -111,7 +112,8 @@ const updateResearcher = async (id,{fname,lname,contact,email,password,country,j
         paper,
         createdAt,
         status,
-        reviewerId
+        reviewerId,
+        paymentId
     }
 
     //Update the researcher in the db
@@ -124,10 +126,16 @@ const updateResearcher = async (id,{fname,lname,contact,email,password,country,j
         // Use existing password if the password given is null
         await getUserById(id).then(data => password = data.password);
     }
+    //Create a user object to update them in the Login collection
+    const user = {
+        email,
+        password,
+        userType:"researcher"
+    }
     //Check if the update is successful
     if(result === 1){
         //Update the login credentials
-        result = await updateUser(id,email);
+        result = await updateUser(id,user);
         //Check if update is successful
         if(result === 1){
             return {status:"Success",msg:"User updated Successfully"}
