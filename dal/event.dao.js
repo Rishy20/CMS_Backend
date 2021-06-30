@@ -23,31 +23,7 @@ const save = async (event) => {
 }
 //GetAll method
 const getAll = async () =>{
-    const cursor = await events.aggregate([
-        {
-          $lookup:{
-              from:"Researchers",
-              localField:"researcher",
-              foreignField:"_id",
-              as:"researcher"
-          },
-
-        },
-        {
-            $lookup:{
-                from:"Workshops",
-                localField:"workshop",
-                foreignField:"_id",
-                as:"workshop"
-            }
-        },
-        {
-            $sort:{date: 1}
-        },
-        {
-            $sort: {time:1}
-        }
-    ]);
+    const cursor = await events.find()
     return cursor.toArray();
 }
 const getByDay = async (day) => {
