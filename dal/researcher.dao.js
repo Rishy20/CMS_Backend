@@ -68,7 +68,7 @@ const updateStatus = async (id, reviewerId, status) =>{
 }
 //Get approved researchers by Reviewer
 const getApprovedByReviewer= async (id) =>{
-    const cursor = await researchers.find({status:"approved",paymentId: {$ne:null},reviewerId: ObjectId(id)});
+    const cursor = await researchers.find({status:"approved",reviewerId: ObjectId(id)});
     return cursor.toArray();
 }
 //Get rejected researchers by Reviewer

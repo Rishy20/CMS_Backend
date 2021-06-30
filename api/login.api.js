@@ -18,13 +18,15 @@ const authenticateUser = async ({email,password}) => {
 
             const id = result._id;
             const userType = result.userType;
-            //Create a JSON Web token
-            const token = jwt.sign({id,userType},secret,{
-                expiresIn: 86400
-            })
-            //Return the token to the client
-            return {auth: true, token:token, usertype:userType}
-
+            // Check if user is of an admin panel related type
+            if (["researcher","workshop"].includes(userType)) {
+                //Create a JSON Web token
+                const token = jwt.sign({id, userType}, secret, {
+                    expiresIn: 86400
+                })
+                //Return the token to the client
+                return {auth: true, token: token, usertype: userType}
+            }
         }else {
             return {auth:false,message:"Password Incorrect"}
         }
