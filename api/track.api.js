@@ -13,7 +13,7 @@ const createTrack = async ({name, image}) => {
         createdAt: new Date()
     }
 
-    let result = await save(Track);
+    let result = await save(track);
     if(result === 1){
         return {status:"Success"}
     }else{
