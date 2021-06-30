@@ -19,6 +19,9 @@ const {saveUser,updateUser,deleteLogin,getUserById} = require("../dal/login.dao"
 //Require bcrypt
 const bcrypt = require('bcrypt');
 
+//Import nodemailer to handle mails
+const nodemailer = require('nodemailer');
+
 const {createNotification} = require("./notification.api");
 //Map the save() method
 const createWorkshop = async ({workshopName, presentersName ,email,contact,password,country,jobTitle,company,avatar,proposal}) => {
@@ -134,12 +137,17 @@ const updateWorkshop = async (id,{workshopName, presentersName ,email,password,c
 }
 const updateWorkshopStatus = async (id,{reviewerId,status}) => {
 
+    const workshop = await getById(id);
+
     if(status==="approved") {
         await createNotification({
             title: "Workshop Proposal approved",
             message: "Congratulations, your proposal got approved. " ,
             userId: id
         })
+        //Call sendEmail method to send an email
+        sendEmail(workshop.email,'Workshop Proposal approved"',`Congratulations, your proposal got approved. `);
+
     }else if(status==="rejected"){
         await createNotification({
             title: "Workshop Proposal rejected",
@@ -147,6 +155,9 @@ const updateWorkshopStatus = async (id,{reviewerId,status}) => {
                 "Please try again next year",
             userId: id
         })
+        //Call sendEmail method to send an email
+        sendEmail(workshop.email,'Workshop Proposal rejected',`Sorry, your proposal got rejected. Please try again next year`);
+
     }
     return await updateStatus(id,reviewerId,status)
 }
@@ -158,6 +169,35 @@ const getApprovedWorkshopsByReviewer = async (id)=>{
 const getRejectedWorkshopsByReviewer = async (id)=>{
     return await getRejectedByReviewer(id);
 }
+
+//This method handles sending emails
+const sendEmail = (email,subject,message)=>{
+
+    //Authenticate the email
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: process.env.EMAIL_USER,
+            pass: process.env.EMAIL_PASSWORD
+        }
+    });
+
+    //Message
+    const mailOptions = {
+        from: 'ICAF',
+        to: email,
+        subject: subject,
+        text: message
+    };
+    //Send Email
+    transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+            console.log(error);
+        }
+    });
+}
+
+
 //Export the methods to be used in routes
 module.exports = {
     createWorkshop,

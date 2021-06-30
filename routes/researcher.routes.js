@@ -109,7 +109,7 @@ router.delete('/:id',async ctx=>{
 
 })
 //Update Paper Status
-router.patch('/:id/status', async ctx=>{
+router.put('/:id/status', async ctx=>{
     const id = ctx.params.id;
     let researcher = ctx.request.body;
     researcher = await updatePaperStatus(id,researcher)
@@ -117,7 +117,7 @@ router.patch('/:id/status', async ctx=>{
     ctx.body = researcher;
 })
 //Update Route
-router.put('/:id' , upload.single('avatar'),async ctx=>{
+router.put('/:id' , upload.single('img'),async ctx=>{
     const id = ctx.params.id
     let researcher = JSON.parse(ctx.request.body.values);
     researcher = await updateResearcher(id,researcher);

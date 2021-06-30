@@ -20,8 +20,11 @@ const {saveUser,deleteLogin,updateUser,getUserById} = require("../dal/login.dao"
 //Require bcrypt
 const bcrypt = require('bcrypt');
 
+//Import nodemailer to handle mails
+const nodemailer = require('nodemailer');
+
 //Map the save() method
-const createResearcher = async ({fname,lname,contact,email,password,country,jobTitle,company,avatar,paper}) => {
+const createResearcher = async ({fname,lname,contact,researchTitle,email,password,country,jobTitle,company,avatar,paper}) => {
 
     //Encrypt the password
     password = await bcrypt.hash(password,5);
@@ -31,6 +34,7 @@ const createResearcher = async ({fname,lname,contact,email,password,country,jobT
         lname,
         email,
         contact,
+        researchTitle,
         country,
         jobTitle,
         company,
@@ -98,13 +102,14 @@ const getApprovedResearcherCount = async () => {
     return await getApprovedCount();
 }
 //Map the update method
-const updateResearcher = async (id,{fname,lname,contact,email,password,country,jobTitle,company,avatar,paper,createdAt,status,reviewerId,paymentId})=>{
+const updateResearcher = async (id,{fname,lname,contact,researchTitle,email,password,country,jobTitle,company,avatar,paper,createdAt,status,reviewerId,paymentId})=>{
     //Create a researcher object
     const researcher = {
         fname,
         lname,
         email,
         contact,
+        researchTitle,
         country,
         jobTitle,
         company,
@@ -145,6 +150,7 @@ const updateResearcher = async (id,{fname,lname,contact,email,password,country,j
 }
 const updatePaperStatus = async (id,{reviewerId,status}) => {
 
+    const researcher = await getById(id);
     if(status==="approved") {
         await createNotification({
             title: "Research Paper approved",
@@ -153,6 +159,9 @@ const updatePaperStatus = async (id,{reviewerId,status}) => {
             userId: id,
             needPayment:true
         })
+
+        //Call sendEmail method to send an email
+        sendEmail(researcher.email,'Research Paper Approved',`Congratulations. Your research paper has been approved. Please make the necessary payment to complete your submission.`);
     }else if(status==="rejected"){
         await createNotification({
             title: "Research Paper rejected",
@@ -160,6 +169,9 @@ const updatePaperStatus = async (id,{reviewerId,status}) => {
                 "Please try again next year",
             userId: id
         })
+        //Call sendEmail method to send an email
+        sendEmail(researcher.email,'Research Paper Rejected',`Sorry, Your research paper has been rejected. Please come back next year.`);
+
     }
     return await updateStatus(id,reviewerId,status)
 }
@@ -167,6 +179,33 @@ const updatePaperStatus = async (id,{reviewerId,status}) => {
 const updateResearcherPayment = async (id,paymentId) =>{
     return await updatePaymentId(id,paymentId)
 }
+//This method handles sending emails
+const sendEmail = (email,subject,message)=>{
+
+    //Authenticate the email
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: process.env.EMAIL_USER,
+            pass: process.env.EMAIL_PASSWORD
+        }
+    });
+
+    //Message
+    const mailOptions = {
+        from: 'ICAF',
+        to: email,
+        subject: subject,
+        text: message
+    };
+    //Send Email
+    transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+            console.log(error);
+        }
+    });
+}
+
 //Export the methods to be used in routes
 module.exports = {
     createResearcher,
