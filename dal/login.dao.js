@@ -32,13 +32,9 @@ const updateUser = async (id, user) =>{
     const result = await users.replaceOne({_id:ObjectId(id)},user);
     return result.modifiedCount;
 }
-//Update Email
-const updateUserEmail = async (id,email) => {
-    const result = await users.updateOne({_id:ObjectId(id)},{$set:{email:email}});
-    return result.modifiedCount;
-}
+
 // Delete a login by ID
-const deleteLogin = async id => {
+const deleteLogin = async (id) => {
     const result = await users.deleteOne({_id: ObjectId(id)});
     return result.deletedCount;
 }
@@ -53,5 +49,4 @@ module.exports = {
     updateUser,
     deleteLogin,
     getUserById,
-    updateUserEmail
 };

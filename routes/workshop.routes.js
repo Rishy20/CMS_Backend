@@ -116,10 +116,13 @@ router.put('/:id/status',async ctx=>{
     ctx.body = Workshop;
 })
 //Update Route
-router.put('/:id',upload.single('img'),async ctx=>{
+router.put('/:id',upload.fields([{name:'img',maxCount:1}]),async ctx=>{
     const id = ctx.params.id;
     let Workshop = JSON.parse(ctx.request.body.values);
-    console.log(Workshop);
+    if(ctx.request.body.img === undefined){
+        let img = ctx.response.request.files.img[0].filename;
+        Workshop.avatar = img;
+    }
     Workshop = await updateWorkshop(id,Workshop);
     ctx.response.status = 200;
     ctx.body = Workshop;

@@ -49,15 +49,14 @@ describe('Test workshop routes', () => {
         expect(response.status).toBe(200);
         expect(response.type).toBe('application/json');
     });
-});
-
-describe('Test workshop routes', () => {
-    test('Test get all pending workshops route', async () => {
-        const response = await request(server.callback()).get('/api/v1/workshops/pending');
+    test('Test get all approved workshops route', async () => {
+        const response = await request(server.callback()).get('/api/v1/workshops/approved');
         expect(response.status).toBe(200);
         expect(response.type).toBe('application/json');
     });
 });
+
+
 
 describe('Test ticket routes', () => {
     test('Test get all tickets route', async () => {

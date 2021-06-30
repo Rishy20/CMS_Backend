@@ -56,8 +56,6 @@ const getCount = async (id) =>{
 const getById = async (id) =>{
     return await notifications.findOne({userId:ObjectId(id)});
 }
-
-
 //Update method
 const updateStatus = async (id) =>{
     const result = await notifications.updateMany({userId:ObjectId(id)},
@@ -65,6 +63,7 @@ const updateStatus = async (id) =>{
         );
     return result.modifiedCount;
 }
+
 //Export the methods
 module.exports = {
 
